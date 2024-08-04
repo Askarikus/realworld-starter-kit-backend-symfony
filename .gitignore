@@ -1,6 +1,8 @@
 #docker
 docker-compose.yaml
 docker
+logs
+logs/nginx
 .env
 
 # dependencies
@@ -32,3 +34,5 @@ Thumbs.db
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+logs/nginx/error.log
+logs/nginx/error.log
