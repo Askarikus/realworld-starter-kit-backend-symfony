@@ -15,14 +15,15 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ORM\HasLifecycleCallbacks]
 class User extends AbstractEntity implements PasswordAuthenticatedUserInterface
 {
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $name = null;
 
     #[ORM\Column(type: 'string', unique: true)]
     private string $email;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $password = null;
+    #[ORM\Column(type: 'string', nullable: false)]
+    private ?string $password;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    private string $name;
 
     #[ORM\Column(type: 'string', length: 2048, nullable: true)]
     private ?string $bio = null;

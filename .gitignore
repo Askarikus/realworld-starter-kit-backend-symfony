@@ -37,3 +37,4 @@ yarn-error.log*
 logs/nginx/error.log
 logs/nginx/error.log
 logs/nginx/error.log
+.vscode/launch.json

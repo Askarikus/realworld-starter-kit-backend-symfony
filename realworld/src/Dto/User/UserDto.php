@@ -8,14 +8,15 @@ use App\Entity\User;
 use App\Dto\AbstractDto;
 use App\Entity\UserEntity;
 use App\Entity\AbstractEntity;
+use App\Dto\AbstractResponseDto;
 use Symfony\Component\Uid\UuidV7;
 
-final class UserDto extends AbstractDto
+final class UserDto extends AbstractResponseDto
 {
     public function __construct(
         private readonly UuidV7 $id,
         private readonly string $email,
-        private readonly ?string $name = null,
+        private readonly string $name,
         private readonly ?string $bio = null,
         private readonly ?string $image = null,
 

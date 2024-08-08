@@ -6,7 +6,7 @@ namespace App\Dto;
 
 use App\Entity\AbstractEntity;
 
-abstract class AbstractDto implements \JsonSerializable
+abstract class AbstractResponseDto implements \JsonSerializable
 {
     abstract public static function fromModel(AbstractEntity $model): static;
 

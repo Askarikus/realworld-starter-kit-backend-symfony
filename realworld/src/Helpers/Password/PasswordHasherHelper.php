@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Password;
+namespace App\Helpers\Password;
 
 use App\Contracts\PasswordHasherInterface;
 use App\Entity\User;
