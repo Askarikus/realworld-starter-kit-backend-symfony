@@ -12,14 +12,12 @@ use Symfony\Component\Uid\UuidV7;
 
 final class UserDto extends AbstractDto
 {
-    /**
-     * @param string[] $roles
-     * @param string[] $permissions
-     */
     public function __construct(
         private readonly UuidV7 $id,
         private readonly string $email,
         private readonly ?string $name = null,
+        private readonly ?string $bio = null,
+        private readonly ?string $image = null,
 
         private readonly ?\DateTimeImmutable $created_at,
         private readonly ?\DateTimeImmutable $updated_at,
@@ -36,6 +34,8 @@ final class UserDto extends AbstractDto
             id: $model->getId(),
             email: $model->getEmail(),
             name: $model->getName(),
+            bio: $model->getBio(),
+            image: $model->getImage(),
             created_at: $model->getCreatedAt(),
             updated_at: $model->getUpdatedAt(),
         );
@@ -52,6 +52,14 @@ final class UserDto extends AbstractDto
     }
 
     public function getName(): ?string
+    {
+        return $this->name;
+    }
+    public function getBio(): ?string
+    {
+        return $this->name;
+    }
+    public function getImage(): ?string
     {
         return $this->name;
     }
@@ -75,6 +83,8 @@ final class UserDto extends AbstractDto
             'id' => (string) $this->getId(),
             'email' => $this->getEmail(),
             'name' => $this->getName(),
+            'bio' => $this->getBio(),
+            'image' => $this->getImage(),
             'created_at' => $this->getCreatedAt()?->getTimestamp(),
             'updated_at' => $this->getUpdatedAt()?->getTimestamp(),
         ];

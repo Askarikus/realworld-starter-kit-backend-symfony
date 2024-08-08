@@ -12,9 +12,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
+#[ORM\HasLifecycleCallbacks]
 class User extends AbstractEntity implements PasswordAuthenticatedUserInterface
 {
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $name = null;
 
@@ -23,6 +23,12 @@ class User extends AbstractEntity implements PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $password = null;
+
+    #[ORM\Column(type: 'string', length: 2048, nullable: true)]
+    private ?string $bio = null;
+
+    #[ORM\Column(type: 'string', length: 1024, nullable: true)]
+    private ?string $image = null;
 
     public function getName(): ?string
     {
@@ -56,6 +62,26 @@ class User extends AbstractEntity implements PasswordAuthenticatedUserInterface
         }
 
         $this->password = $passwordHasher->hash($this, $password);
+    }
+
+    public function getBio(): string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(string $bio): void
+    {
+        $this->bio = $bio;
+    }
+
+    public function getImage(): string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): void
+    {
+        $this->image = $image;
     }
 
     public function getJson(): array
