@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\User;
 
 use App\Entity\User;
+use App\Dto\User\UserResponseDto;
 use App\Helpers\Request\BaseRequest;
 use App\Dto\User\RegisterUserRequestDto;
 use App\UseCase\User\RegisterUserUseCase;
@@ -29,8 +30,10 @@ class RegisterUserController extends AbstractController
 
         $user = $this->registerUserUseCase->execute($registerDataRequestDto);
 
+        $userResponseDto =  UserResponseDto::fromModel($user);
+
         return new JsonResponse(
-            data: ['user' => ['id' => $user->getId(), 'name' => $user->getName()]],
+            data: ['user' => $userResponseDto->jsonSerialize()],
             status: Response::HTTP_CREATED,
             // headers: $headers
         );

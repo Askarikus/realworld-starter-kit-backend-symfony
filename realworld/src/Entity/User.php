@@ -65,7 +65,7 @@ class User extends AbstractEntity implements PasswordAuthenticatedUserInterface
         $this->password = $passwordHasher->hash($this, $password);
     }
 
-    public function getBio(): string
+    public function getBio(): ?string
     {
         return $this->bio;
     }
@@ -75,7 +75,7 @@ class User extends AbstractEntity implements PasswordAuthenticatedUserInterface
         $this->bio = $bio;
     }
 
-    public function getImage(): string
+    public function getImage(): ?string
     {
         return $this->image;
     }
