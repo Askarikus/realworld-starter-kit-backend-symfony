@@ -67,7 +67,7 @@ final class UserResponseDto extends AbstractResponseDto
         return [
             'id' => (string) $this->getId(),
             'email' => $this->getEmail(),
-            'name' => $this->getName(),
+            'username' => $this->getName(),
             'bio' => $this->getBio(),
             'image' => $this->getImage()
         ];

@@ -9,11 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use App\Contracts\PasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
 #[ORM\HasLifecycleCallbacks]
-class User extends AbstractEntity implements PasswordAuthenticatedUserInterface
+class User extends AbstractEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
     #[ORM\Column(type: 'string', unique: true)]
@@ -30,6 +31,12 @@ class User extends AbstractEntity implements PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 1024, nullable: true)]
     private ?string $image = null;
+
+    /**
+     * @var string[]
+     */
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
 
     public function getName(): ?string
     {
@@ -83,6 +90,32 @@ class User extends AbstractEntity implements PasswordAuthenticatedUserInterface
     public function setImage(string $image): void
     {
         $this->image = $image;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param string[] $roles
+     */
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getJson(): array

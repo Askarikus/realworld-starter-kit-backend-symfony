@@ -26,6 +26,7 @@ class RegisterUserController extends AbstractController
     {
         /** @var User */
         $user = null;
+        // TODO validate field user
         $registerDataRequestDto = RegisterUserRequestDto::fromArray($request->getJsonData()['user']);
 
         $user = $this->registerUserUseCase->execute($registerDataRequestDto);
