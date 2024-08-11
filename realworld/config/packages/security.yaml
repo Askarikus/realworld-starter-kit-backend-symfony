@@ -14,10 +14,11 @@ security:
             stateless: true
             provider: app_user_provider
             json_login:
-                username_path: email
-                check_path: api_access_token
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+                username_path: user.email
+                password_path: user.password
+                check_path: users_login
+                # success_handler: lexik_jwt_authentication.handler.authentication_success
+                # failure_handler: lexik_jwt_authentication.handler.authentication_failure
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false

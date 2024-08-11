@@ -14,8 +14,13 @@ class PasswordHasherHelper implements PasswordHasherInterface
     {
     }
 
-    public function hash(User $user, string $password): string
+    public function hash(User $user, string $plainPassword): string
     {
-        return $this->userPasswordHasher->hashPassword($user, $password);
+        return $this->userPasswordHasher->hashPassword($user, $plainPassword);
+    }
+
+    public function verify(User $user, string $plainPassword): bool
+    {
+        return $this->userPasswordHasher->isPasswordValid($user, $plainPassword);
     }
 }

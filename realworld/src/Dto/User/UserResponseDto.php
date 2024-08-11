@@ -12,13 +12,14 @@ use Symfony\Component\Uid\UuidV7;
 
 final class UserResponseDto extends AbstractResponseDto
 {
+    private ?string $jwtToken = null;
+
     public function __construct(
         private readonly UuidV7 $id,
         private readonly string $email,
         private readonly string $name,
         private readonly ?string $bio = null,
-        private readonly ?string $image = null
-
+        private readonly ?string $image = null,
     ) {
     }
 
@@ -59,6 +60,16 @@ final class UserResponseDto extends AbstractResponseDto
         return $this->image;
     }
 
+    public function setJwtToken(?string $jwtToken): void
+    {
+        $this->jwtToken = $jwtToken;
+    }
+
+    public function getJwtToken(): ?string
+    {
+        return $this->jwtToken;
+    }
+
     /**
      * @return mixed[]
      */
@@ -69,7 +80,8 @@ final class UserResponseDto extends AbstractResponseDto
             'email' => $this->getEmail(),
             'username' => $this->getName(),
             'bio' => $this->getBio(),
-            'image' => $this->getImage()
+            'image' => $this->getImage(),
+            'token' => $this->jwtToken,
         ];
     }
 }
