@@ -13,6 +13,7 @@ class HomePageController extends AbstractController
     #[Route(path: '', name: 'home_page', methods: ['get'])]
     public function __invoke(): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         return new Response('<h1>Hello, World!</h1>');
     }
 

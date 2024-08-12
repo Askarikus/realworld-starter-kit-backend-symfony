@@ -19,8 +19,8 @@ class RegisterUserController extends BaseController
     public function __construct(
         private readonly RegisterUserUseCase $registerUserUseCase,
         private readonly JWTTokenManagerInterface $JWTManager,
-    ) {
 
+    ) {
     }
     #[Route(path: 'users', name: 'user_register', methods: ['POST'])]
     public function __invoke(BaseRequest $request): Response
