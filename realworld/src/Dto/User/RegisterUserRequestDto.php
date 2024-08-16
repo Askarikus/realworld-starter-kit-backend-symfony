@@ -27,7 +27,6 @@ final class RegisterUserRequestDto extends AbstractRequestDto
         #[Assert\NotBlank]
         #[Assert\NotNull]
         private readonly string $name,
-
     ) {
 
     }

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\User;
 
-use App\Controller\BaseController;
 use App\Dto\User\UserResponseDto;
+use App\Controller\BaseController;
 use App\Helpers\Request\BaseRequest;
 use App\Dto\User\RegisterUserRequestDto;
+use App\Language\Language;
 use App\UseCase\User\RegisterUserUseCase;
+use App\Validator\User\UserRegisterValidator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,21 +21,20 @@ class RegisterUserController extends BaseController
     public function __construct(
         private readonly RegisterUserUseCase $registerUserUseCase,
         private readonly JWTTokenManagerInterface $JWTManager,
-
     ) {
     }
     #[Route(path: 'users', name: 'user_register', methods: ['POST'])]
     public function __invoke(BaseRequest $request): Response
     {
         $requestData = $request->getJsonData()['user'] ?? null;
-        if (!$requestData) {
-            return $this->createErrorResponse('Malformed Data, user field is required');
+
+        $validator = new UserRegisterValidator();
+
+        if(!$validator->batch()->check($requestData)){
+            return $this->createErrorResponse($validator->getError());
         }
-        try {
-            $registerDataRequestDto = RegisterUserRequestDto::fromArray($requestData);
-        } catch (\Exception $e) {
-            return $this->createErrorResponse($e->getMessage());
-        }
+
+        $registerDataRequestDto = RegisterUserRequestDto::fromArray($requestData);
 
         $user = $this->registerUserUseCase->execute($registerDataRequestDto);
 

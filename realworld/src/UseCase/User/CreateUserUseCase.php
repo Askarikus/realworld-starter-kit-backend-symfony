@@ -39,16 +39,6 @@ class CreateUserUseCase
             }
         }
 
-        // if ($image) {
-        //     $user->setImage($image);
-        // }
-        // if ($bio) {
-        //     $user->setBio($bio);
-        // }
-        // if ($name) {
-        //     $user->setName($name);
-        // }
-
         $user = $this->userRepository->save($user);
 
         return $user;

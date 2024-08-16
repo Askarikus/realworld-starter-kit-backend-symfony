@@ -12,15 +12,11 @@ trait ParseStringTrait
     use PrepareParseExceptionTrait;
 
     // @description Reference(&) needed for passing Undefined array keys
-    protected static function parseNullableString(mixed &$value, ?int $maxLength = 200): ?string
+    protected static function parseNullableString(mixed &$value): ?string
     {
         try {
             if ($value === null) {
                 return null;
-            }
-
-            if ($maxLength !== null && mb_strlen((string)$value) > $maxLength) {
-                return throw new BadRequestException("String length cannot exceed {$maxLength} characters");
             }
 
             return (string)$value;
@@ -30,9 +26,9 @@ trait ParseStringTrait
     }
 
     // @description Reference(&) needed for passing Undefined array keys
-    protected static function parseString(mixed &$value, ?int $maxLength = 200, ?string $defaultValue = null): string
+    protected static function parseString(mixed &$value, ?string $defaultValue = null): string
     {
-        $castedValue = self::parseNullableString($value, $maxLength);
+        $castedValue = self::parseNullableString($value);
         if ($castedValue === null) {
             if ($defaultValue === null) {
                 throw self::prepareParseException();

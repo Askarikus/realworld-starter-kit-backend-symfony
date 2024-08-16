@@ -9,11 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BaseController extends AbstractController
 {
-    protected function createErrorResponse(string $message): JsonResponse
+    /**
+     *
+     * @param array $message
+     * @return JsonResponse
+     */
+    protected function createErrorResponse(array $errors): JsonResponse
     {
         return new JsonResponse(
-            data: ['message' => $message],
-            status: Response::HTTP_BAD_REQUEST
+            data: ['errors' => $errors],
+            status: Response::HTTP_UNPROCESSABLE_ENTITY
         );
     }
 }
