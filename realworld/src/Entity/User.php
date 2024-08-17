@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Article;
 use App\Dto\User\UserDto;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use App\Contracts\PasswordHasherInterface;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: 'users')]
+#[ORM\Table(name: 'user')]
 #[ORM\HasLifecycleCallbacks]
 class User extends AbstractEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
-
     #[ORM\Column(type: 'string', unique: true)]
     private string $email;
 
@@ -31,6 +32,9 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
 
     #[ORM\Column(type: 'string', length: 1024, nullable: true)]
     private ?string $image = null;
+
+    #[ORM\OneToMany(mappedBy:'author', targetEntity: Article::class)]
+    private Collection $articles;
 
     /**
      * @var string[]

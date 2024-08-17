@@ -15,7 +15,7 @@ class Language
     protected $locale = 'en';
 
     //Путь к директории с файлами переводов
-    protected $filesDirPath = ROOT_PATH.'/langs/';
+    protected $filesDirPath =  __DIR__ . '/../langs/';
 
     //загруженные переводы
     protected $translates = [];

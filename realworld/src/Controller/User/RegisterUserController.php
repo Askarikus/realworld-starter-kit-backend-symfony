@@ -46,6 +46,5 @@ class RegisterUserController extends BaseController
             data: ['user' => $userResponseDto->jsonSerialize()],
             status: Response::HTTP_CREATED,
         );
-
     }
 }
