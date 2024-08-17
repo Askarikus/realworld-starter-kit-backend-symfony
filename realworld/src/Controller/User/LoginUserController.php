@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\User;
 
-use App\Controller\BaseController;
 use App\Dto\User\UserResponseDto;
+use App\Controller\BaseController;
 use App\Helpers\Request\BaseRequest;
 use App\Dto\User\LoginUserRequestDto;
+use App\Validator\User\UserLoginValidator;
 use App\UseCase\User\GetUserByEmailUseCase;
 use App\Helpers\Password\PasswordHasherHelper;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,22 +31,17 @@ class LoginUserController extends BaseController
     public function __invoke(BaseRequest $request): Response
     {
         $requestData = $request->getJsonData()['user'] ?? null;
-        if (!$requestData) {
-            return $this->createErrorResponse('Malformed Data, user field is required');
-        }
-        try {
-            $loginUserRequestDto = LoginUserRequestDto::fromArray($requestData);
-        } catch (\Exception $e) {
-            return $this->createErrorResponse($e->getMessage());
+
+        $validator = new UserLoginValidator();
+        if(!$validator->batch()->check($requestData)) {
+            return $this->createErrorResponse($validator->batch()->getError());
         }
 
-        if (!$this->isUserWithEmailExistUseCase->execute($loginUserRequestDto->getEmail())) {
-            return $this->createErrorResponse('Invalid credentials');
-        }
+        $loginUserRequestDto = LoginUserRequestDto::fromArray($requestData);
 
         $user = $this->getUserByEmailUseCase->execute($loginUserRequestDto->getEmail());
         if (!$this->passwordHasherHelper->verify($user, $loginUserRequestDto->getPassword())) {
-            return $this->createErrorResponse('Invalid credentials');
+            return $this->createErrorResponse(['errors' => ['user' => ['Invalid credentials.']]]);
         }
 
         $jwtToken = $this->JWTManager->create($user);
