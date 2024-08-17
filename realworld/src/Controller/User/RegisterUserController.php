@@ -31,7 +31,7 @@ class RegisterUserController extends BaseController
         $validator = new UserRegisterValidator();
 
         if(!$validator->batch()->check($requestData)){
-            return $this->createErrorResponse($validator->getError());
+            return $this->createErrorResponse($validator->batch()->getError());
         }
 
         $registerDataRequestDto = RegisterUserRequestDto::fromArray($requestData);

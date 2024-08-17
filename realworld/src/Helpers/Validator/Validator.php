@@ -409,7 +409,8 @@ class Validator
                 if (!empty($this->batch)) {
                     // batch verification
                     if (is_array($result)) {
-                        $this->error = array_merge($this->error, $result);
+                        // $this->error = array_merge($this->error, $result);
+                        $this->error[$key] = $result;
                     } else {
                         $this->error[$key] = $result;
                     }
@@ -619,6 +620,7 @@ class Validator
         }
 
         $i = 0;
+        $message = [];
         foreach ($rules as $key => $rule) {
             if ($rule instanceof \Closure) {
                 $result = call_user_func_array($rule, [$value, $data]);
@@ -646,9 +648,8 @@ class Validator
 
             if (false === $result) {
                 // Verification failed + return error message
-                $message = !empty($msg[$i]) ? $msg[$i] : $this->getRuleMsg($field, $title, $info, $rule);
-
-                return $message;
+                $message[] = !empty($msg[$i]) ? $msg[$i] : $this->getRuleMsg($field, $title, $info, $rule);
+                // return $message;
             } elseif (true !== $result) {
                 // return custom error message
                 if (is_string($result) && false !== strpos($result, ':')) {
@@ -664,7 +665,7 @@ class Validator
             $i++;
         }
 
-        return $result;
+        return $message ? $message : $result;
     }
 
     // get error message
