@@ -14,12 +14,15 @@ final class ArticleResponseDto extends AbstractResponseDto
 {
     use ParseDtoTrait;
 
+    private readonly array $tagList;
+
     public function __construct(
         private readonly string $slug,
         private readonly string $title,
         private readonly string $description,
         private readonly string $body,
-        private readonly UserResponseDto $author
+        private readonly UserResponseDto $author,
+
     ) {
 
     }
@@ -59,14 +62,26 @@ final class ArticleResponseDto extends AbstractResponseDto
     {
         return $this->author;
     }
+
+    public function getTagsList()
+    {
+        return $this->tagList;
+    }
+
+    public function setTagsList(array $tagsList): void
+    {
+        $this->tagList = $tagsList;
+    }
+
     public function jsonSerialize(): array
     {
         return [
-            'slug' => $this->slug,
-            'title' => $this->title,
-            'description' => $this->description,
-            'body' => $this->body,
-            'author' => $this->author,
+            'slug' => $this->getSlug(),
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+            'body' => $this->getBody(),
+            'author' => $this->getAuthor(),
+            'tagList' => $this->getTagsList(),
         ];
     }
 }

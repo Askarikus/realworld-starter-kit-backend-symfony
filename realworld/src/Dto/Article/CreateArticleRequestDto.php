@@ -15,6 +15,7 @@ final class CreateArticleRequestDto extends AbstractRequestDto
         private readonly string $title,
         private readonly string $description,
         private readonly string $body,
+        private readonly ?array $tagList,
     ) {
 
     }
@@ -25,6 +26,7 @@ final class CreateArticleRequestDto extends AbstractRequestDto
             title:self::parseString($data['title']),
             description:self::parseString($data['description']),
             body: self::parseString($data['body']),
+            tagList: self::parseNullableArray($data['tagList']),
         );
     }
 
@@ -42,6 +44,10 @@ final class CreateArticleRequestDto extends AbstractRequestDto
     {
         return $this->body;
     }
+    public function getTagList(): ?array
+    {
+        return $this->tagList;
+    }
 
     public function jsonSerialize(): array
     {
@@ -49,6 +55,7 @@ final class CreateArticleRequestDto extends AbstractRequestDto
             'title' => $this->title,
             'description' => $this->description,
             'body' => $this->body,
+            'tag_list' => $this->tagList,
         ];
     }
 

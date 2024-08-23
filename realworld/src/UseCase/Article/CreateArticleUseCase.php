@@ -9,6 +9,7 @@ use App\Repository\ArticleRepository;
 use App\UseCase\User\GetAuthUserUseCase;
 use App\Dto\Article\CreateArticleRequestDto;
 use App\Helpers\Slug\GenerateUniqueSlugTrait;
+use App\UseCase\ArticleTag\CreateArticleTagUseCase;
 
 class CreateArticleUseCase
 {
@@ -17,7 +18,8 @@ class CreateArticleUseCase
 
     public function __construct(
         private readonly ArticleRepository $articleRepository,
-        private readonly GetAuthUserUseCase $getAuthUserUseCase
+        private readonly GetAuthUserUseCase $getAuthUserUseCase,
+        private readonly CreateArticleTagUseCase $createArticleTagUseCase,
     ) {
     }
 
@@ -34,7 +36,10 @@ class CreateArticleUseCase
         $article->setDescription($createArticleRequestDto->getDescription());
         $article->setBody($createArticleRequestDto->getBody());
         $article->setAuthor($this->getAuthUserUseCase->execute());
-        $this->articleRepository->save($article);
+        $article = $this->articleRepository->save($article);
+        if ($createArticleRequestDto->getTagList()) {
+            $this->createArticleTagUseCase->execute($article, $createArticleRequestDto->getTagList());
+        }
 
         return $article;
     }
