@@ -6,31 +6,30 @@ namespace App\UseCase\Article;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
-use App\UseCase\User\GetAuthUserUseCase;
 use App\Dto\Article\CreateArticleRequestDto;
-use App\Helpers\Slug\GenerateUniqueSlugTrait;
 use App\UseCase\ArticleTag\CreateArticleTagUseCase;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class CreateArticleUseCase
+class EditArticleUseCase
 {
-
-    use GenerateUniqueSlugTrait;
-
     public function __construct(
         private readonly ArticleRepository $articleRepository,
-        private readonly GetAuthUserUseCase $getAuthUserUseCase,
+        private readonly GetArticleBySlugUseCase $getArticleBySlugUseCase,
         private readonly CreateArticleTagUseCase $createArticleTagUseCase,
+
     ) {
     }
 
-    public function getRepository()
-    {
-        return $this->articleRepository;
-    }
+    public function execute(
+        string $slug,
+        CreateArticleRequestDto $createArticleRequestDto
+    ): ?Article {
+        $article = $this->getArticleBySlugUseCase->execute($slug);
 
-    public function execute(CreateArticleRequestDto $createArticleRequestDto)
-    {
-        $article = new Article();
+        if (!$article) {
+            throw new NotFoundHttpException('Article not found');
+        }
+
         $fields = ['title', 'description', 'body'];
         foreach ($fields as $field) {
             if(method_exists($createArticleRequestDto, 'get' . ucfirst($field))) {
@@ -41,15 +40,11 @@ class CreateArticleUseCase
                 }
             }
         }
-
-        $article->setSlug($this->generateUniqueSlug($createArticleRequestDto->getTitle()));
-        $article->setAuthor($this->getAuthUserUseCase->execute());
-
-        $article = $this->articleRepository->save($article);
-
         if ($createArticleRequestDto->getTagList()) {
             $this->createArticleTagUseCase->execute($article, $createArticleRequestDto->getTagList());
         }
+
+        $article = $this->articleRepository->save($article);
 
         return $article;
     }

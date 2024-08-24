@@ -12,9 +12,9 @@ final class CreateArticleRequestDto extends AbstractRequestDto
     use ParseDataTrait;
 
     public function __construct(
-        private readonly string $title,
-        private readonly string $description,
-        private readonly string $body,
+        private readonly ?string $title,
+        private readonly ?string $description,
+        private readonly ?string $body,
         private readonly ?array $tagList,
     ) {
 
@@ -23,24 +23,24 @@ final class CreateArticleRequestDto extends AbstractRequestDto
     public static function fromArray(array $data): static
     {
         return new static(
-            title:self::parseString($data['title']),
-            description:self::parseString($data['description']),
-            body: self::parseString($data['body']),
+            title:self::parseNullableString($data['title']),
+            description:self::parseNullableString($data['description']),
+            body: self::parseNullableString($data['body']),
             tagList: self::parseNullableArray($data['tagList']),
         );
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function getBody(): string
+    public function getBody(): ?string
     {
         return $this->body;
     }

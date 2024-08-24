@@ -76,7 +76,7 @@ final class UserResponseDto extends AbstractResponseDto
     public function jsonSerialize(): array
     {
         return [
-            'id' => (string) $this->getId(),
+            // 'id' => (string) $this->getId(),
             'email' => $this->getEmail(),
             'username' => $this->getName(),
             'bio' => $this->getBio(),
