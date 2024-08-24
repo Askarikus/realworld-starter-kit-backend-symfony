@@ -12,10 +12,12 @@ class CreateArticleValidator extends Validator
         'title' => 'length:6,500',
         'description' => 'length:6,500',
         'body' => 'length:6,5000',
+        'tagList' => 'array',
     ];
     protected array $message  =   [
         'title.length' => 'Title length must be between 6 and 500 characters',
         'description.length' => 'Description length must be between 6 and 500 characters',
         'body.length' => 'Body length must be between 6 and 500 characters',
+        'tagList.array' => 'Tags must be an array of strings'
     ];
 }

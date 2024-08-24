@@ -16,10 +16,10 @@ use App\Repository\ArticleTagRepository;
 )]
 class ArticleTag extends AbstractEntity
 {
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
     private string $articleId;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
     private string $tagId;
 
     public function getArticleId(): string

@@ -37,7 +37,6 @@ class CreateArticleController extends BaseController
 
         $article = $this->createArticleUseCase->execute($createArticleRequestDto);
         $articleResponseDto = $this->getArticleResponseDtoUseCase->execute($article);
-        ;
 
         return new JsonResponse(
             data: ['article' => $articleResponseDto->jsonSerialize()],
