@@ -14,7 +14,7 @@ final class ArticleResponseDto extends AbstractResponseDto
 {
     use ParseDtoTrait;
 
-    private readonly array $tagList;
+    private ?array $tagList = [];
 
     public function __construct(
         private readonly string $slug,
@@ -22,7 +22,7 @@ final class ArticleResponseDto extends AbstractResponseDto
         private readonly string $description,
         private readonly string $body,
         private readonly UserResponseDto $author,
-
+        private readonly \DateTimeImmutable $createdAt,
     ) {
 
     }
@@ -34,7 +34,8 @@ final class ArticleResponseDto extends AbstractResponseDto
             title:$article->getTitle(),
             description: $article->getDescription(),
             body: $article->getBody(),
-            author: self::parseResponseDto(UserResponseDto::class, $article->getAuthor())
+            author: self::parseResponseDto(UserResponseDto::class, $article->getAuthor()),
+            createdAt: $article->getCreatedAt(),
         );
     }
 
@@ -63,6 +64,11 @@ final class ArticleResponseDto extends AbstractResponseDto
         return $this->author;
     }
 
+    public function getCreatedAt()
+    {
+        return $this->createdAt->format('Y-m-d H:i:s');
+    }
+
     public function getTagsList()
     {
         return $this->tagList;
@@ -82,6 +88,7 @@ final class ArticleResponseDto extends AbstractResponseDto
             'body' => $this->getBody(),
             'author' => $this->getAuthor(),
             'tagList' => $this->getTagsList(),
+            'createdAt' => $this->getCreatedAt(),
         ];
     }
 }

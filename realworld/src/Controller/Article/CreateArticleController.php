@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace App\Controller\Article;
 
+use App\Controller\BaseController;
 use App\Helpers\Request\BaseRequest;
-use App\Dto\Article\ArticleResponseDto;
 use App\Dto\Article\CreateArticleRequestDto;
 use App\UseCase\Article\CreateArticleUseCase;
-use App\UseCase\Article\GetArticleResponseDtoUseCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Validator\Article\CreateArticleValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\UseCase\Article\GetArticleTagsArrayUseCase;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\UseCase\Article\GetArticleResponseDtoUseCase;
 
-class CreateArticleController extends AbstractController
+class CreateArticleController extends BaseController
 {
     public function __construct(
         private readonly CreateArticleUseCase $createArticleUseCase,
@@ -28,10 +27,17 @@ class CreateArticleController extends AbstractController
     {
         $requestData = $request->getJsonData()['article'] ?? null;
 
+        $validator = new CreateArticleValidator();
+
+        if(!$validator->batch()->check($requestData)) {
+            return $this->createErrorResponse($validator->batch()->getError());
+        }
+
         $createArticleRequestDto = CreateArticleRequestDto::fromArray($requestData);
 
         $article = $this->createArticleUseCase->execute($createArticleRequestDto);
-        $articleResponseDto = $this->getArticleResponseDtoUseCase->execute($article);;
+        $articleResponseDto = $this->getArticleResponseDtoUseCase->execute($article);
+        ;
 
         return new JsonResponse(
             data: ['article' => $articleResponseDto->jsonSerialize()],

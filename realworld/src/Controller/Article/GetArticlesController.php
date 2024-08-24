@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\Controller\Article;
 
-use App\Dto\Article\ArticleResponseDto;
 use App\UseCase\Article\GetAllArticlesUseCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\UseCase\Article\GetArticleResponseDtoUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GetArticlesController extends AbstractController
 {
     public function __construct(
-        private readonly GetAllArticlesUseCase $getAllArticlesUseCase
+        private readonly GetAllArticlesUseCase $getAllArticlesUseCase,
+        private readonly GetArticleResponseDtoUseCase $getArticleResponseDtoUseCase,
     ) {
 
     }
@@ -25,7 +26,7 @@ class GetArticlesController extends AbstractController
 
         $articles = $this->getAllArticlesUseCase->execute();
 
-        $articlesResponseDto = array_map(fn ($article) => ArticleResponseDto::fromModel($article), $articles);
+        $articlesResponseDto = array_map(fn ($article) => $this->getArticleResponseDtoUseCase->execute($article), $articles);
 
         return new JsonResponse(
             data: [
