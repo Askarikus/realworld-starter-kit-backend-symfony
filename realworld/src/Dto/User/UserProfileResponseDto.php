@@ -11,6 +11,8 @@ use App\Dto\AbstractResponseDto;
 
 final class UserProfileResponseDto extends AbstractResponseDto
 {
+    private bool $isFollowedByCeleb = false;
+
     public function __construct(
         private readonly string $name,
         private readonly ?string $bio = null,
@@ -42,6 +44,15 @@ final class UserProfileResponseDto extends AbstractResponseDto
     {
         return $this->image;
     }
+    public function getIsFollowedByCeleb(): bool
+    {
+        return $this->isFollowedByCeleb;
+    }
+
+    public function setIsFollowedByCeleb(bool $isFollowedByCeleb): void
+    {
+        $this->isFollowedByCeleb = $isFollowedByCeleb;
+    }
 
     /**
      * @return mixed[]
@@ -52,6 +63,8 @@ final class UserProfileResponseDto extends AbstractResponseDto
             'username' => $this->getName(),
             'bio' => $this->getBio(),
             'image' => $this->getImage(),
+            'follow' => $this->getIsFollowedByCeleb(),
         ];
     }
+
 }
