@@ -13,7 +13,7 @@ class GetArticlesByAuthorNameUseCase
 {
     public function __construct(
         private readonly ArticleRepository $articleRepository,
-        private readonly GetUserByNameUseCase   $getUserByNameUseCase,
+        private readonly GetUserByNameUseCase $getUserByNameUseCase,
     ) {
     }
 

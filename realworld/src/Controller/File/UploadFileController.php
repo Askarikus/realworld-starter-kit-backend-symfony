@@ -31,9 +31,9 @@ class UploadFileController extends BaseController
     #[Route(path: '/file-upload', name: 'file_upload', methods: ['POST'])]
     public function __invoke(BaseRequest $request)
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         /** @var UploadedFile $file */
-        $file = $request->getRequest()->files->get('file');
+        $file = $request->getRequest()->files->get('image');
 
         $fileUploadDto = new FileUploadDto($file);
 
@@ -41,18 +41,18 @@ class UploadFileController extends BaseController
             uploadedFile: $fileUploadDto->getFile()
         );
         // dd(json_decode($request->getRequest()->get('text'), true));
-        $requestData = json_decode($request->getRequest()->get('text'), true);
-        $requestData['image'] = $file;
-        $editUserRequestDto = EditUserRequestDto::fromArray($requestData);
+        // $requestData = json_decode($request->getRequest()->get('text'), true)?? [];
+        // $requestData['image'] = $file;
+        // $editUserRequestDto = EditUserRequestDto::fromArray($requestData);
 
-        $user = $this->getAuthUserUseCase->execute();
+        // $user = $this->getAuthUserUseCase->execute();
 
-        try {
-            $user = $this->editUserUseCase->execute($user->getStringId(), $editUserRequestDto);
-        } catch (NotFoundHttpException $e) {
-            return new JsonResponse(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
-        }
-        $userResponseDto = UserResponseDto::fromModel($user);
+        // try {
+        //     $user = $this->editUserUseCase->execute($user->getStringId(), $editUserRequestDto);
+        // } catch (NotFoundHttpException $e) {
+        //     return new JsonResponse(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
+        // }
+        // $userResponseDto = UserResponseDto::fromModel($user);
 
         return new JsonResponse(
             ['file' => $file],

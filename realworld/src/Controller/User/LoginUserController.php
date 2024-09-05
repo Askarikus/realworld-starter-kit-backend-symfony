@@ -40,6 +40,9 @@ class LoginUserController extends BaseController
         $loginUserRequestDto = LoginUserRequestDto::fromArray($requestData);
 
         $user = $this->getUserByEmailUseCase->execute($loginUserRequestDto->getEmail());
+        if(!$user) {
+            return $this->createErrorResponse(['errors' => ['user' => ['User not found.']]]);
+        }
         if (!$this->passwordHasherHelper->verify($user, $loginUserRequestDto->getPassword())) {
             return $this->createErrorResponse(['errors' => ['user' => ['Invalid credentials.']]]);
         }
