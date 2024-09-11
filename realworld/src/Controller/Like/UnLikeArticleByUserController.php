@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Follow;
+namespace App\Controller\Like;
 
 use App\Controller\BaseController;
 use App\UseCase\User\GetAuthUserUseCase;

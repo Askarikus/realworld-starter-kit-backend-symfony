@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\UseCase\Article;
 
+use App\Entity\User;
 use App\Entity\Article;
+use App\Dto\User\UserResponseDto;
 use App\Dto\Article\ArticleResponseDto;
 
 class GetArticleResponseDtoUseCase
 {
     public function __construct(
-        private readonly GetArticleTagsArrayUseCase $getArticleTagsArrayUseCase
+        private readonly GetArticleTagsArrayUseCase $getArticleTagsArrayUseCase,
+        private readonly GetArticleLikersUseCase $getArticleLikersUseCase
     ) {
     }
 
@@ -19,8 +22,17 @@ class GetArticleResponseDtoUseCase
         $articleResponseDto = ArticleResponseDto::fromModel($article);
         $tagsList = $this->getArticleTagsArrayUseCase->execute($article->getStringId());
 
-        if($tagsList) {
+        if ($tagsList) {
             $articleResponseDto->setTagsList($tagsList);
+        }
+
+        /** @var User[] */
+        $likers = $this->getArticleLikersUseCase->execute($article->getStringId());
+        $likersDtoArray = array_map(fn ($liker) => UserResponseDto::fromModel($liker), $likers);
+        if ($likers) {
+            $articleResponseDto->setFavoritedBy($likersDtoArray);
+            $articleResponseDto->setFavorited(true);
+            $articleResponseDto->setFavoritesCount(count($likers));
         }
 
         return $articleResponseDto;
