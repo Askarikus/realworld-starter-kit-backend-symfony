@@ -43,6 +43,5 @@ class LikeArticleByUserController extends BaseController
                 $articleResponseDto->jsonSerialize()
             ]
         ]);
-
     }
 }

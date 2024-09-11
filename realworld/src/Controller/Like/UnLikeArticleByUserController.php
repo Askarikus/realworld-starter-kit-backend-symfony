@@ -1,44 +1,46 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Like;
 
 use App\Controller\BaseController;
 use App\UseCase\User\GetAuthUserUseCase;
-use App\UseCase\User\GetUserByNameUseCase;
-use App\UseCase\Follow\UnfollowUserUseCase;
-use App\UseCase\User\GetUserProfileResponseDto;
 use Symfony\Component\Routing\Annotation\Route;
+use App\UseCase\Article\GetArticleBySlugUseCase;
+use App\UseCase\Like\UnLikeArticleByUserUseCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\UseCase\Article\GetArticleResponseDtoUseCase;
+
+
 
 class UnLikeArticleByUserController extends BaseController
 {
     public function __construct(
-        private readonly UnfollowUserUseCase $unfollowUserUseCase,
+        private readonly UnLikeArticleByUserUseCase $unLikeArticleByUserUseCase,
         private readonly GetAuthUserUseCase $getAuthUserUseCase,
-        private readonly GetUserByNameUseCase $getUserByNameUseCase,
-        private readonly GetUserProfileResponseDto $getUserProfileResponseDto,
+        private readonly GetArticleBySlugUseCase $getArticleBySlugUseCase,
+        private readonly GetArticleResponseDtoUseCase $getArticleResponseDtoUseCase,
     ) {
     }
 
-    #[Route(path: 'profiles/{username}/unfollow', name: 'unfollow_user', methods: ['POST'])]
-    public function __invoke(string $username)
+    #[Route(path: 'articles/{slug}/unfavorite', name: 'unlike_article', methods: ['DELETE'])]
+    public function __invoke(string $slug): JsonResponse
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
         $user = $this->getAuthUserUseCase->execute();
+        $article = $this->getArticleBySlugUseCase->execute($slug);
 
-        $userCeleb = $this->getUserByNameUseCase->execute($username);
-        if($userCeleb === null) {
-            $this->createErrorResponse(['errors' => ['user' => ['User not found.']]]);
+        if ($article === null) {
+            return $this->createErrorResponse(['errors' => ['article' => ['Article not found.']]]);
         }
 
-        $this->unfollowUserUseCase->execute(follower: $user, celeb: $userCeleb);
-        $userCelebProfileResponseDto = $this->getUserProfileResponseDto->execute($user, $userCeleb);
+        $this->unLikeArticleByUserUseCase->execute(user: $user, article: $article);
+        $articleResponseDto = $this->getArticleResponseDtoUseCase->execute($article);
+
         return new JsonResponse([
-            'profile' => [
-                $userCelebProfileResponseDto->jsonSerialize()
+            'article' => [
+                $articleResponseDto->jsonSerialize()
             ]
         ]);
     }

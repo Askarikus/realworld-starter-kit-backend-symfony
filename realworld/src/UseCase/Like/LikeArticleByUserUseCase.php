@@ -24,6 +24,5 @@ class LikeArticleByUserUseCase
         $like = $this->likeRepository->save($like);
 
         return $article;
-
     }
 }

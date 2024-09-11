@@ -29,6 +29,9 @@ class GetArticleResponseDtoUseCase
         /** @var User[] */
         $likers = $this->getArticleLikersUseCase->execute($article->getStringId());
         $likersDtoArray = array_map(fn ($liker) => UserResponseDto::fromModel($liker), $likers);
+        $articleResponseDto->setFavoritedBy([]);
+        $articleResponseDto->setFavorited(false);
+        $articleResponseDto->setFavoritesCount(0);
         if ($likers) {
             $articleResponseDto->setFavoritedBy($likersDtoArray);
             $articleResponseDto->setFavorited(true);
