@@ -21,7 +21,7 @@ class GetArticleBySlugController extends AbstractController
 
     }
 
-    #[Route(path: 'articles/{:slug}', name: 'article_by_slug', methods: ['GET'], priority: 2)]
+    #[Route(path: 'articles/{slug}', name: 'article_by_slug', methods: ['GET'])]
     public function __invoke(string $slug): Response
     {
         $article = $this->getArticleBySlugUseCase->execute($slug);

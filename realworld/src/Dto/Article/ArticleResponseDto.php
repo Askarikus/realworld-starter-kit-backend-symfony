@@ -15,6 +15,9 @@ final class ArticleResponseDto extends AbstractResponseDto
     use ParseDtoTrait;
 
     private ?array $tagList = [];
+    private array $favoritedBy;
+    private bool $favorited;
+    private $favoritesCount;
 
     public function __construct(
         private readonly string $slug,
@@ -78,6 +81,33 @@ final class ArticleResponseDto extends AbstractResponseDto
     {
         $this->tagList = $tagsList;
     }
+    public function getFavoritedBy(): array
+    {
+        return $this->favoritedBy;
+    }
+
+    public function setFavoritedBy(array $favoritedList): void
+    {
+        $this->favoritedBy = $favoritedList;
+    }
+    public function isFavorited(): bool
+    {
+        return $this->favorited;
+    }
+
+    public function setFavorited(bool $favorited): void
+    {
+        $this->favorited = $favorited;
+    }
+    public function getFavoritesCount(): int
+    {
+        return $this->favoritesCount;
+    }
+
+    public function setFavoritesCount(int $favoritesCount): void
+    {
+        $this->favoritesCount = $favoritesCount;
+    }
 
     public function jsonSerialize(): array
     {
@@ -88,6 +118,9 @@ final class ArticleResponseDto extends AbstractResponseDto
             'body' => $this->getBody(),
             'author' => $this->getAuthor(),
             'tagList' => $this->getTagsList(),
+            'favoiritedBy' => $this->getFavoritedBy(),
+            'favorited' => $this->isFavorited(),
+            'favoritesCount' => $this->getFavoritesCount(),
             'createdAt' => $this->getCreatedAt(),
         ];
     }

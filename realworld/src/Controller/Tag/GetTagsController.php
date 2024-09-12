@@ -21,10 +21,10 @@ class GetTagsController extends AbstractController
     {
         $tags = $this->getAllTagsUseCase->execute();
         $tagsResponseDto = array_map(fn ($tag) => TagResponseDto::fromModel($tag), $tags);
+        $tagsArray = array_map(fn ($tagResponseDto) =>$tagResponseDto->getName(), $tagsResponseDto);
         return new JsonResponse(
             data: [
-                'tags' => $tagsResponseDto,
-                'tagsCount' => count($tags)
+                'tags' => $tagsArray,
                 ],
             status: Response::HTTP_OK,
         );
