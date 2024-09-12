@@ -32,7 +32,7 @@ class FollowByUserController extends BaseController
         $userCeleb = $this->getUserByNameUseCase->execute($username);
 
         if($userCeleb === null) {
-            $this->createErrorResponse(['errors' => ['user' => ['User not found.']]]);
+            $this->createErrorResponse(['user' => ['User not found.']]);
         }
 
         $this->followUserUseCase->execute(follower: $user, celeb: $userCeleb);

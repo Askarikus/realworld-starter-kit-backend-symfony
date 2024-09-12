@@ -31,7 +31,7 @@ class UnFollowByUserController extends BaseController
 
         $userCeleb = $this->getUserByNameUseCase->execute($username);
         if($userCeleb === null) {
-            $this->createErrorResponse(['errors' => ['user' => ['User not found.']]]);
+            $this->createErrorResponse(['user' => ['User not found.']]);
         }
 
         $this->unfollowUserUseCase->execute(follower: $user, celeb: $userCeleb);

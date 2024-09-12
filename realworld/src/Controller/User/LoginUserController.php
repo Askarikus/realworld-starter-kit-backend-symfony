@@ -41,10 +41,10 @@ class LoginUserController extends BaseController
 
         $user = $this->getUserByEmailUseCase->execute($loginUserRequestDto->getEmail());
         if(!$user) {
-            return $this->createErrorResponse(['errors' => ['user' => ['User not found.']]]);
+            return $this->createErrorResponse(['user' => ['User not found.']]);
         }
         if (!$this->passwordHasherHelper->verify($user, $loginUserRequestDto->getPassword())) {
-            return $this->createErrorResponse(['errors' => ['user' => ['Invalid credentials.']]]);
+            return $this->createErrorResponse(['user' => ['Invalid credentials.']]);
         }
 
         $jwtToken = $this->JWTManager->create($user);

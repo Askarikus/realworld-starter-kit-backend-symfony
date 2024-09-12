@@ -33,7 +33,7 @@ class LikeArticleByUserController extends BaseController
         $article = $this->getArticleBySlugUseCase->execute($slug);
 
         if ($article === null) {
-            $this->createErrorResponse(['errors' => ['article' => ['Article not found.']]]);
+            $this->createErrorResponse(['article' => ['Article not found.']]);
         }
 
         $article = $this->likeArticleByUserUseCase->execute(user: $user, article: $article);

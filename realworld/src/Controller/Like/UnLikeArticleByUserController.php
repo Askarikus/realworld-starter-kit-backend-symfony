@@ -32,7 +32,7 @@ class UnLikeArticleByUserController extends BaseController
         $article = $this->getArticleBySlugUseCase->execute($slug);
 
         if ($article === null) {
-            return $this->createErrorResponse(['errors' => ['article' => ['Article not found.']]]);
+            return $this->createErrorResponse(['article' => ['Article not found.']]);
         }
 
         $this->unLikeArticleByUserUseCase->execute(user: $user, article: $article);

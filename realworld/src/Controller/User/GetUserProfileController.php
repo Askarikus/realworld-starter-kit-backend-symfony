@@ -31,7 +31,7 @@ class GetUserProfileController extends BaseController
         $userCeleb = $this->getUserByNameUseCase->execute($username);
 
         if($userCeleb === null) {
-            $this->createErrorResponse(['errors' => ['user' => ['User not found.']]]);
+            $this->createErrorResponse(['user' => ['User not found.']]);
         }
 
         $userCelebProfileResponseDto = $this->getUserProfileResponseDto->execute($user, $userCeleb);
