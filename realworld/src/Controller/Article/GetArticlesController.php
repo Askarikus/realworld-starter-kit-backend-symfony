@@ -8,6 +8,7 @@ use App\Helpers\Request\BaseRequest;
 use App\UseCase\Article\GetAllArticlesUseCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\UseCase\Article\GetArticlesByTagUseCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\UseCase\Article\GetArticleResponseDtoUseCase;
 use App\UseCase\Article\GetArticlesByAuthorNameUseCase;
@@ -20,6 +21,7 @@ class GetArticlesController extends AbstractController
         private readonly GetAllArticlesUseCase $getAllArticlesUseCase,
         private readonly GetArticleResponseDtoUseCase $getArticleResponseDtoUseCase,
         private readonly GetArticlesByAuthorNameUseCase $getArticlesByAuthorNameUseCase,
+        private readonly GetArticlesByTagUseCase $getArticlesByTagUseCase,
     ) {
 
     }
@@ -28,6 +30,7 @@ class GetArticlesController extends AbstractController
     public function __invoke(BaseRequest $request): Response
     {
         $authorName = $request->getRequest()->get('author');
+        $tag = $request->getRequest()->get('tag');
         if($authorName) {
             try {
                 $articles = $this->getArticlesByAuthorNameUseCase->execute($authorName);
@@ -37,7 +40,10 @@ class GetArticlesController extends AbstractController
                     status: Response::HTTP_NOT_FOUND,
                 );
             }
-        } else {
+        } elseif ($tag) {
+            $articles = $this->getArticlesByTagUseCase->execute($tag);
+        }
+        else {
             $articles = $this->getAllArticlesUseCase->execute();
         }
 
