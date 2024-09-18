@@ -36,10 +36,11 @@ class UnFollowByUserController extends BaseController
 
         $this->unfollowUserUseCase->execute(follower: $user, celeb: $userCeleb);
         $userCelebProfileResponseDto = $this->getUserProfileResponseDto->execute($user, $userCeleb);
-        return new JsonResponse([
-            'profile' => [
+        return new JsonResponse(
+            data:['profile' =>
                 $userCelebProfileResponseDto->jsonSerialize()
-            ]
-        ]);
+            ],
+            status: JsonResponse::HTTP_OK
+        );
     }
 }

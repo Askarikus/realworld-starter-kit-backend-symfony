@@ -31,17 +31,18 @@ class FollowByUserController extends BaseController
 
         $userCeleb = $this->getUserByNameUseCase->execute($username);
 
-        if($userCeleb === null) {
+        if ($userCeleb === null) {
             $this->createErrorResponse(['user' => ['User not found.']]);
         }
 
         $this->followUserUseCase->execute(follower: $user, celeb: $userCeleb);
         $userCelebProfileResponseDto = $this->getUserProfileResponseDto->execute($user, $userCeleb);
-        return new JsonResponse([
-            'profile' => [
+        return new JsonResponse(
+            data:['profile' =>
                 $userCelebProfileResponseDto->jsonSerialize()
-            ]
-        ]);
+            ],
+            status: JsonResponse::HTTP_OK
+        );
 
     }
 }
