@@ -29,7 +29,7 @@ class GetFeedController extends BaseController
         $user = $this->getAuthUserUseCase->execute();
         $feed = $this->getFeedArticlesUseCase->execute($user);
 
-        $feedResponseDto = array_map(fn ($article) => $this->getArticleResponseDtoUseCase->execute($article), $feed);
+        $feedResponseDto = array_map(fn ($article) => $this->getArticleResponseDtoUseCase->execute($article, $user), $feed);
 
         return new JsonResponse(
             data: [

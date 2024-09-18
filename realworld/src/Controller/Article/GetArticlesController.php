@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Article;
 
 use App\Helpers\Request\BaseRequest;
+use App\UseCase\User\GetAuthUserUseCase;
 use App\UseCase\Article\GetAllArticlesUseCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,6 +23,7 @@ class GetArticlesController extends AbstractController
         private readonly GetArticleResponseDtoUseCase $getArticleResponseDtoUseCase,
         private readonly GetArticlesByAuthorNameUseCase $getArticlesByAuthorNameUseCase,
         private readonly GetArticlesByTagUseCase $getArticlesByTagUseCase,
+        private readonly GetAuthUserUseCase $getAuthUserUseCase
     ) {
 
     }
@@ -31,7 +33,7 @@ class GetArticlesController extends AbstractController
     {
         $authorName = $request->getRequest()->get('author');
         $tag = $request->getRequest()->get('tag');
-        if($authorName) {
+        if ($authorName) {
             try {
                 $articles = $this->getArticlesByAuthorNameUseCase->execute($authorName);
             } catch (NotFoundHttpException $e) {
@@ -42,12 +44,22 @@ class GetArticlesController extends AbstractController
             }
         } elseif ($tag) {
             $articles = $this->getArticlesByTagUseCase->execute($tag);
-        }
-        else {
+        } else {
             $articles = $this->getAllArticlesUseCase->execute();
         }
 
-        $articlesResponseDto = array_map(fn ($article) => $this->getArticleResponseDtoUseCase->execute($article), $articles);
+        try {
+            $user = $this->getAuthUserUseCase->execute();
+            $articlesResponseDto = array_map(
+                fn ($article) => $this->getArticleResponseDtoUseCase->execute($article, $user),
+                $articles
+            );
+        } catch (\Exception $e) {
+            $articlesResponseDto = array_map(
+                fn ($article) => $this->getArticleResponseDtoUseCase->execute($article),
+                $articles
+            );
+        }
 
         return new JsonResponse(
             data: [

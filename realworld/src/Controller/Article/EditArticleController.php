@@ -4,6 +4,7 @@ namespace App\Controller\Article;
 
 use App\Controller\BaseController;
 use App\Helpers\Request\BaseRequest;
+use App\UseCase\User\GetAuthUserUseCase;
 use App\UseCase\Article\EditArticleUseCase;
 use App\Dto\Article\CreateArticleRequestDto;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,14 +17,16 @@ class EditArticleController extends BaseController
 {
     public function __construct(
         private readonly EditArticleUseCase $editArticleUseCase,
-
-        private readonly GetArticleResponseDtoUseCase $getArticleResponseDtoUseCase
+        private readonly GetArticleResponseDtoUseCase $getArticleResponseDtoUseCase,
+        private readonly GetAuthUserUseCase $getAuthUserUseCase
     ) {
     }
 
     #[Route(path: 'articles/{slug}', name: 'article_edit', methods: ['PUT'])]
     public function __invoke(string $slug, BaseRequest $request): JsonResponse
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+
         $requestData = $request->getJsonData()['article'] ?? null;
 
         $validator = new CreateArticleValidator();
@@ -38,7 +41,8 @@ class EditArticleController extends BaseController
         } catch (NotFoundHttpException $e) {
             return $this->createErrorResponse(['article' => ['Article not found']]);
         }
-        $articleResponseDto = $this->getArticleResponseDtoUseCase->execute($article);
+        $user = $this->getAuthUserUseCase->execute();
+        $articleResponseDto = $this->getArticleResponseDtoUseCase->execute($article, $user);
 
         return new JsonResponse(
             data: ['article' => $articleResponseDto->jsonSerialize()],
