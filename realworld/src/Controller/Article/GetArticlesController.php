@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Article;
 
+use App\Entity\Article;
+use Pagerfanta\Pagerfanta;
 use App\Helpers\Request\BaseRequest;
+use Pagerfanta\Adapter\ArrayAdapter;
 use App\UseCase\User\GetAuthUserUseCase;
 use App\UseCase\Article\GetAllArticlesUseCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,6 +36,10 @@ class GetArticlesController extends AbstractController
     {
         $authorName = $request->getRequest()->get('author');
         $tag = $request->getRequest()->get('tag');
+
+        $page = intval($request->getRequest()->get('page', 1));
+        $limit = intval($request->getRequest()->get('limit', 10));
+
         if ($authorName) {
             try {
                 $articles = $this->getArticlesByAuthorNameUseCase->execute($authorName);
@@ -47,6 +54,17 @@ class GetArticlesController extends AbstractController
         } else {
             $articles = $this->getAllArticlesUseCase->execute();
         }
+
+        $arrayAdapterFanta = new ArrayAdapter($articles);
+        $pagerfanta = new Pagerfanta($arrayAdapterFanta);
+
+        $pagerfanta->setMaxPerPage($limit); // 10 by default
+        $pagerfanta->setCurrentPage($page); // 1 by default
+
+        $nbResults = $pagerfanta->getNbResults();
+
+        /** @var Article[] */
+        $articles = $pagerfanta->getCurrentPageResults();
 
         try {
             $user = $this->getAuthUserUseCase->execute();
@@ -64,7 +82,7 @@ class GetArticlesController extends AbstractController
         return new JsonResponse(
             data: [
                 'articles' => $articlesResponseDto,
-                'articlesCount' => count($articles)
+                'articlesCount' =>  $nbResults ?? count($articles),
                 ],
             status: Response::HTTP_OK,
         );
