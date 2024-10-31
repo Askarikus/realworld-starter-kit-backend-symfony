@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\UseCase\Follow;
 
-use App\Repository\FollowRepository;
 use App\Entity\User;
+use App\Repository\FollowRepository;
 
 class UnfollowUserUseCase
 {

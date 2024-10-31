@@ -3,7 +3,7 @@
 namespace App\Helpers\Validator\Rules;
 
 /**
- * Проверка уникальности записи в БД
+ * Проверка уникальности записи в БД.
  */
 class UniqueRule
 {

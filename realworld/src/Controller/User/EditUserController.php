@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace App\Controller\User;
 
-use App\Dto\User\UserResponseDto;
 use App\Controller\BaseController;
 use App\Dto\User\EditUserRequestDto;
+use App\Dto\User\UserResponseDto;
 use App\Helpers\Request\BaseRequest;
 use App\UseCase\User\EditUserUseCase;
-use App\Dto\User\RegisterUserRequestDto;
 use App\UseCase\User\GetAuthUserUseCase;
 use App\Validator\User\UserUpdateValidator;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class EditUserController extends BaseController
 {
@@ -33,7 +32,7 @@ class EditUserController extends BaseController
 
         $validator = new UserUpdateValidator();
 
-        if(!$validator->batch()->check($requestData)) {
+        if (!$validator->batch()->check($requestData)) {
             return $this->createErrorResponse($validator->batch()->getError());
         }
 

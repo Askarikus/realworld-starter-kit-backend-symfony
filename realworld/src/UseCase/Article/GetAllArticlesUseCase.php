@@ -8,7 +8,6 @@ use App\Repository\ArticleRepository;
 
 class GetAllArticlesUseCase
 {
-
     public function __construct(
         private readonly ArticleRepository $articleRepository,
     ) {

@@ -18,7 +18,6 @@ class GetArticlesByTagUseCase
     }
 
     /**
-     * @param string $tagName
      * @return Article[]
      */
     public function execute(string $tagName): array

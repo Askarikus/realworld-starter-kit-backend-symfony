@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\UseCase\Article;
 
-use App\Entity\Article;
-use App\Repository\ArticleRepository;
-use App\UseCase\User\GetAuthUserUseCase;
 use App\Dto\Article\CreateArticleRequestDto;
+use App\Entity\Article;
 use App\Helpers\Slug\GenerateUniqueSlugTrait;
+use App\Repository\ArticleRepository;
 use App\UseCase\ArticleTag\CreateArticleTagUseCase;
+use App\UseCase\User\GetAuthUserUseCase;
 
 class CreateArticleUseCase
 {
-
     use GenerateUniqueSlugTrait;
 
     public function __construct(
@@ -33,10 +32,10 @@ class CreateArticleUseCase
         $article = new Article();
         $fields = ['title', 'description', 'body'];
         foreach ($fields as $field) {
-            if(method_exists($createArticleRequestDto, 'get' . ucfirst($field))) {
-                if($createArticleRequestDto->{'get' . ucfirst($field)}()) {
-                    if(method_exists($article, 'set' . ucfirst($field))) {
-                        $article->{'set' . ucfirst($field)}($createArticleRequestDto->{'get' . ucfirst($field)}());
+            if (method_exists($createArticleRequestDto, 'get'.ucfirst($field))) {
+                if ($createArticleRequestDto->{'get'.ucfirst($field)}()) {
+                    if (method_exists($article, 'set'.ucfirst($field))) {
+                        $article->{'set'.ucfirst($field)}($createArticleRequestDto->{'get'.ucfirst($field)}());
                     }
                 }
             }

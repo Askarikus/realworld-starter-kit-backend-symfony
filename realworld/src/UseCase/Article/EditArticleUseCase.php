@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\UseCase\Article;
 
+use App\Dto\Article\CreateArticleRequestDto;
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
-use App\Dto\Article\CreateArticleRequestDto;
 use App\UseCase\ArticleTag\CreateArticleTagUseCase;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -16,13 +16,12 @@ class EditArticleUseCase
         private readonly ArticleRepository $articleRepository,
         private readonly GetArticleBySlugUseCase $getArticleBySlugUseCase,
         private readonly CreateArticleTagUseCase $createArticleTagUseCase,
-
     ) {
     }
 
     public function execute(
         string $slug,
-        CreateArticleRequestDto $createArticleRequestDto
+        CreateArticleRequestDto $createArticleRequestDto,
     ): ?Article {
         $article = $this->getArticleBySlugUseCase->execute($slug);
 
@@ -32,10 +31,10 @@ class EditArticleUseCase
 
         $fields = ['title', 'description', 'body'];
         foreach ($fields as $field) {
-            if(method_exists($createArticleRequestDto, 'get' . ucfirst($field))) {
-                if($createArticleRequestDto->{'get' . ucfirst($field)}()) {
-                    if(method_exists($article, 'set' . ucfirst($field))) {
-                        $article->{'set' . ucfirst($field)}($createArticleRequestDto->{'get' . ucfirst($field)}());
+            if (method_exists($createArticleRequestDto, 'get'.ucfirst($field))) {
+                if ($createArticleRequestDto->{'get'.ucfirst($field)}()) {
+                    if (method_exists($article, 'set'.ucfirst($field))) {
+                        $article->{'set'.ucfirst($field)}($createArticleRequestDto->{'get'.ucfirst($field)}());
                     }
                 }
             }

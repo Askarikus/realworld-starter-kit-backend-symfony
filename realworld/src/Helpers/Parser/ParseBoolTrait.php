@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Helpers\Parser;
 
-use Exception;
-
 trait ParseBoolTrait
 {
     use PrepareParseExceptionTrait;
@@ -13,11 +11,12 @@ trait ParseBoolTrait
     protected static function parseNullableBool(mixed &$value): ?bool
     {
         try {
-            if ($value === null) {
+            if (null === $value) {
                 return null;
             }
-            return (bool)$value;
-        } catch (Exception) {
+
+            return (bool) $value;
+        } catch (\Exception) {
             throw self::prepareParseException();
         }
     }
@@ -25,12 +24,14 @@ trait ParseBoolTrait
     protected static function parseBool(mixed &$value, ?bool $defaultValue = null): bool
     {
         $castedValue = self::parseNullableBool($value);
-        if ($castedValue === null) {
-            if ($defaultValue === null) {
+        if (null === $castedValue) {
+            if (null === $defaultValue) {
                 throw self::prepareParseException();
             }
+
             return $defaultValue;
         }
+
         return $castedValue;
     }
 }

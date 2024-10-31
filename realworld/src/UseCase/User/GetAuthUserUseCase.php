@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\UseCase\User;
 
 use App\Entity\User;
-use Webmozart\Assert\Assert;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Webmozart\Assert\Assert;
 
 class GetAuthUserUseCase
 {

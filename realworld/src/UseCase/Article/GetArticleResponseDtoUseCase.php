@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\UseCase\Article;
 
-use App\Entity\User;
-use App\Entity\Article;
-use App\Dto\User\UserResponseDto;
 use App\Dto\Article\ArticleResponseDto;
+use App\Dto\User\UserResponseDto;
+use App\Entity\Article;
+use App\Entity\User;
 use App\UseCase\Like\IsArticleLikedByCurrentUserUseCase;
 
 class GetArticleResponseDtoUseCase
@@ -20,7 +20,7 @@ class GetArticleResponseDtoUseCase
     ) {
     }
 
-    public function execute(Article $article, User $user = null): ArticleResponseDto
+    public function execute(Article $article, ?User $user = null): ArticleResponseDto
     {
         $articleResponseDto = ArticleResponseDto::fromModel($article);
         $tagsList = $this->getArticleTagsArrayUseCase->execute($article->getStringId());

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\UseCase\Tag;
 
-use App\Repository\TagRepository;
 use App\Entity\Tag;
+use App\Repository\TagRepository;
 
 class GetTagByNameUseCase
 {

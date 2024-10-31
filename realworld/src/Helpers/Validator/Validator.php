@@ -3,11 +3,12 @@
 namespace App\Helpers\Validator;
 
 use App\Language\Language;
-use SplFileObject;
 use Psr\Http\Message\UploadedFileInterface;
+use SplFileObject;
 
 /**
  * @SuppressWarnings(PHPMD)
+ *
  * @phpstan-consistent-constructor
  */
 class Validator
@@ -15,54 +16,48 @@ class Validator
     use ValidatorRules;
 
     /**
-     * custom validation type
-     * @var array
+     * custom validation type.
      */
     protected static array $type = [
-        'unique' => 'App\Helpers\Validator\Rules\UniqueRule::validate'
+        'unique' => 'App\Helpers\Validator\Rules\UniqueRule::validate',
     ];
 
     /**
-     * Validation type alias
-     * @var array
+     * Validation type alias.
      */
     protected array $alias = [
         '>' => 'gt', '>=' => 'gte', '<' => 'lt', '<=' => 'lte', '=' => 'eq', 'same' => 'eq',
     ];
 
     /**
-     * current validation rules
-     * @var array
+     * current validation rules.
      */
     protected array $rule = [];
 
     /**
-     * Verification prompt information
-     * @var array
+     * Verification prompt information.
      */
     protected array $message = [];
 
     /**
-     * Validation field description
-     * @var array
+     * Validation field description.
      */
     protected array $field = [];
 
     /**
-     * Default rule prompt
-     * @var array
+     * Default rule prompt.
      */
     protected static array $typeMsg = [];
 
     /**
-     * Current Verification Scenario
+     * Current Verification Scenario.
+     *
      * @var array
      */
-    protected $currentScene = null;
+    protected $currentScene;
 
     /**
-     * Built-in regular validation rules
-     * @var array
+     * Built-in regular validation rules.
      */
     protected array $regex = [
         'alpha' => '/^[A-Za-z]+$/',
@@ -73,8 +68,7 @@ class Validator
     ];
 
     /**
-     * Filter_var rule
-     * @var array
+     * Filter_var rule.
      */
     protected array $filter = [
         'email' => FILTER_VALIDATE_EMAIL,
@@ -86,57 +80,49 @@ class Validator
     ];
 
     /**
-     * Validation Scenario Definition
-     * @var array
+     * Validation Scenario Definition.
      */
     protected array $scene = [];
 
     /**
-     * Authentication failure error message
-     * @var array
+     * Authentication failure error message.
      */
     protected array $error = [];
 
     /**
-     * Whether batch verification
-     * @var bool
+     * Whether batch verification.
      */
     protected bool $batch = false;
 
     /**
-     * Scenario needs to verify the rules
-     * @var array
+     * Scenario needs to verify the rules.
      */
     protected array $only = [];
 
     /**
-     * Validation rules that need to be removed by the scene
-     * @var array
+     * Validation rules that need to be removed by the scene.
      */
     protected array $remove = [];
 
     /**
-     * Scenarios require additional validation rules
-     * @var array
+     * Scenarios require additional validation rules.
      */
     protected array $append = [];
 
     /**
-     * Singleton instance of Language
-     * @var Language
+     * Singleton instance of Language.
      */
     protected static Language $language;
 
     /**
-     * @access public
-     * @param array $rules validation rules
+     * @param array $rules   validation rules
      * @param array $message Verification prompt information
-     * @param array $field Verify field description information
+     * @param array $field   Verify field description information
      */
     public function __construct(
         array $rules = [],
         $message = [],
-        $field = []
+        $field = [],
     ) {
         $this->rule = $rules + $this->rule;
         $this->message = array_merge($this->message, $message);
@@ -148,11 +134,11 @@ class Validator
     }
 
     /**
-     * Create a validator class
-     * @access public
-     * @param array $rules validation rules
+     * Create a validator class.
+     *
+     * @param array $rules   validation rules
      * @param array $message Verification prompt information
-     * @param array $field Verify field description information
+     * @param array $field   Verify field description information
      */
     public static function make($rules = [], $message = [], $field = [])
     {
@@ -160,10 +146,11 @@ class Validator
     }
 
     /**
-     * Add field validation rules
-     * @access protected
-     * @param string|array  $name  field name or array of rules
-     * @param mixed         $rule  Validation rules or field description information
+     * Add field validation rules.
+     *
+     * @param string|array $name field name or array of rules
+     * @param mixed        $rule Validation rules or field description information
+     *
      * @return $this
      */
     public function rule($name, $rule = '')
@@ -173,6 +160,7 @@ class Validator
             if (is_array($rule)) {
                 $this->field = array_merge($this->field, $rule);
             }
+
             return $this;
         }
 
@@ -182,8 +170,7 @@ class Validator
     }
 
     /**
-     * Получение списка правил
-     * @return array
+     * Получение списка правил.
      */
     public function getRules(): array
     {
@@ -191,10 +178,11 @@ class Validator
     }
 
     /**
-     * Register Extended Validation (Type) Rules
-     * @access public
-     * @param string    $type  validation rule type
-     * @param mixed     $callback callback method (or closure)
+     * Register Extended Validation (Type) Rules.
+     *
+     * @param string $type     validation rule type
+     * @param mixed  $callback callback method (or closure)
+     *
      * @return void
      */
     public static function extend($type, $callback = null)
@@ -207,10 +195,11 @@ class Validator
     }
 
     /**
-     * Set the default prompt information for validation rules
-     * @access public
-     * @param string|array  $type  Validation rule type name or array
-     * @param string        $msg  Verification prompt information
+     * Set the default prompt information for validation rules.
+     *
+     * @param string|array $type Validation rule type name or array
+     * @param string       $msg  Verification prompt information
+     *
      * @return void
      */
     public static function setTypeMsg($type, $msg = null)
@@ -223,10 +212,11 @@ class Validator
     }
 
     /**
-     * Set reminder information
-     * @access public
-     * @param string|array  $name  Field Name
-     * @param string        $message prompt information
+     * Set reminder information.
+     *
+     * @param string|array $name    Field Name
+     * @param string       $message prompt information
+     *
      * @return $this
      */
     public function message($name, $message = '')
@@ -241,9 +231,10 @@ class Validator
     }
 
     /**
-     * Set the verification scene
-     * @access public
-     * @param string  $name  scene name
+     * Set the verification scene.
+     *
+     * @param string $name scene name
+     *
      * @return $this
      */
     public function scene($name)
@@ -255,20 +246,22 @@ class Validator
     }
 
     /**
-     * Determine whether there is a verification scenario
-     * @access public
+     * Determine whether there is a verification scenario.
+     *
      * @param string $name scene name
+     *
      * @return bool
      */
     public function hasScene($name)
     {
-        return isset($this->scene[$name]) || method_exists($this, 'scene' . $name);
+        return isset($this->scene[$name]) || method_exists($this, 'scene'.$name);
     }
 
     /**
-     * Set up bulk verification
-     * @access public
-     * @param bool $batch  Whether batch verification
+     * Set up bulk verification.
+     *
+     * @param bool $batch Whether batch verification
+     *
      * @return $this
      */
     public function batch($batch = true)
@@ -279,9 +272,10 @@ class Validator
     }
 
     /**
-     * Specify the list of fields that need to be validated
-     * @access public
-     * @param array $fields  field name
+     * Specify the list of fields that need to be validated.
+     *
+     * @param array $fields field name
+     *
      * @return $this
      */
     public function only($fields)
@@ -292,10 +286,11 @@ class Validator
     }
 
     /**
-     * Remove validation rules for a field
-     * @access public
-     * @param string|array  $field  field name
-     * @param mixed         $rule   validate_rules true remove all rules
+     * Remove validation rules for a field.
+     *
+     * @param string|array $field field name
+     * @param mixed        $rule  validate_rules true remove all rules
+     *
      * @return $this
      */
     public function remove($field, $rule = true)
@@ -320,10 +315,11 @@ class Validator
     }
 
     /**
-     * Append a validation rule for a field
-     * @access public
-     * @param string|array  $field  field name
-     * @param mixed         $rule   validation rules
+     * Append a validation rule for a field.
+     *
+     * @param string|array $field field name
+     * @param mixed        $rule  validation rules
+     *
      * @return $this
      */
     public function append($field, $rule = null)
@@ -344,11 +340,12 @@ class Validator
     }
 
     /**
-     * Data Automatic Validation
-     * @access public
-     * @param array     $data  data
-     * @param mixed     $rules  validation rules
-     * @param string    $scene Verification scenario
+     * Data Automatic Validation.
+     *
+     * @param array  $data  data
+     * @param mixed  $rules validation rules
+     * @param string $scene Verification scenario
+     *
      * @return bool
      */
     public function check($data, $rules = [], $scene = '')
@@ -416,19 +413,21 @@ class Validator
                     }
                 } else {
                     $this->error[] = $result;
+
                     return false;
                 }
             }
         }
 
-        return !!empty($this->error);
+        return (bool) empty($this->error);
     }
 
     /**
-     * Validate data against validation rules
-     * @access public
-     * @param  mixed     $value field value
-     * @param  mixed     $rules validation rules
+     * Validate data against validation rules.
+     *
+     * @param mixed $value field value
+     * @param mixed $rules validation rules
+     *
      * @return bool
      */
     public function checkRule($value, $rules)
@@ -462,11 +461,12 @@ class Validator
     }
 
     /**
-     * Validate that field values bare in a valid format
-     * @access public
-     * @param mixed     $value  field value
-     * @param string    $rule  validation rules
-     * @param array     $data  verify the data
+     * Validate that field values bare in a valid format.
+     *
+     * @param mixed  $value field value
+     * @param string $rule  validation rules
+     * @param array  $data  verify the data
+     *
      * @return bool
      */
     public function is($value, $rule, $data = [])
@@ -559,10 +559,8 @@ class Validator
     }
 
     /**
-     * Get the current verification type and rules
-     * @access public
-     * @param  mixed     $key
-     * @param  mixed     $rule
+     * Get the current verification type and rules.
+     *
      * @return array
      */
     protected function getValidateType($key, $rule)
@@ -592,15 +590,14 @@ class Validator
     }
 
     /**
-     * Validate individual field rules
-     * @access protected
-     * @param string    $field  field name
-     * @param mixed     $value  field value
-     * @param mixed     $rules  validation rules
-     * @param array     $data  data
-     * @param string    $title  field description
-     * @param array     $msg  prompt information
-     * @return mixed
+     * Validate individual field rules.
+     *
+     * @param string $field field name
+     * @param mixed  $value field value
+     * @param mixed  $rules validation rules
+     * @param array  $data  data
+     * @param string $title field description
+     * @param array  $msg   prompt information
      */
     protected function checkItem($field, $value, $rules, $data, $title = '', $msg = [])
     {
@@ -632,7 +629,7 @@ class Validator
                 if (isset($this->append[$field]) && in_array($info, $this->append[$field])) {
                 } elseif (isset($this->remove[$field]) && in_array($info, $this->remove[$field])) {
                     // rule has been removed
-                    $i++;
+                    ++$i;
                     continue;
                 }
 
@@ -649,7 +646,7 @@ class Validator
             if (false === $result) {
                 // Verification failed + return error message
                 $message[] = !empty($msg[$i]) ? $msg[$i] : $this->getRuleMsg($field, $title, $info, $rule);
-                // return $message;
+            // return $message;
             } elseif (true !== $result) {
                 // return custom error message
                 if (is_string($result) && false !== strpos($result, ':')) {
@@ -662,7 +659,7 @@ class Validator
 
                 return $result;
             }
-            $i++;
+            ++$i;
         }
 
         return $message ? $message : $result;
@@ -675,11 +672,10 @@ class Validator
     }
 
     /**
-     * get data value
-     * @access protected
-     * @param array     $data  data
-     * @param string    $key  Data identification + support two-dimensional
-     * @return mixed
+     * get data value.
+     *
+     * @param array  $data data
+     * @param string $key  Data identification + support two-dimensional
      */
     protected function getDataValue($data, $key)
     {
@@ -697,18 +693,19 @@ class Validator
     }
 
     /**
-     * Get the error message of the validation rule
-     * @access protected
-     * @param string    $attribute  Field English name
-     * @param string    $title  field description name
-     * @param string    $type  Validation rule name
-     * @param mixed     $rule  validation rule data
+     * Get the error message of the validation rule.
+     *
+     * @param string $attribute Field English name
+     * @param string $title     field description name
+     * @param string $type      Validation rule name
+     * @param mixed  $rule      validation rule data
+     *
      * @return string
      */
     protected function getRuleMsg($attribute, $title, $type, $rule)
     {
-        if (isset($this->message[$attribute . '.' . $type])) {
-            $msg = $this->message[$attribute . '.' . $type];
+        if (isset($this->message[$attribute.'.'.$type])) {
+            $msg = $this->message[$attribute.'.'.$type];
         } elseif (isset($this->message[$attribute][$type])) {
             $msg = $this->message[$attribute][$type];
         } elseif (isset($this->message[$attribute])) {
@@ -742,9 +739,10 @@ class Validator
     }
 
     /**
-     * Scenarios for obtaining data verification
-     * @access protected
-     * @param string $scene  Verification scenario
+     * Scenarios for obtaining data verification.
+     *
+     * @param string $scene Verification scenario
+     *
      * @return void
      */
     protected function getScene($scene = '')
@@ -760,8 +758,8 @@ class Validator
 
         $this->only = $this->append = $this->remove = [];
 
-        if (method_exists($this, 'scene' . $scene)) {
-            call_user_func([$this, 'scene' . $scene]);
+        if (method_exists($this, 'scene'.$scene)) {
+            call_user_func([$this, 'scene'.$scene]);
         } elseif (isset($this->scene[$scene])) {
             // If the verification applicable scene is set
             $scene = $this->scene[$scene];
@@ -775,10 +773,11 @@ class Validator
     }
 
     /**
-     * Dynamic method + directly call the is method for verification
-     * @access protected
-     * @param string $method  method name
-     * @param array $args  call parameters
+     * Dynamic method + directly call the is method for verification.
+     *
+     * @param string $method method name
+     * @param array  $args   call parameters
+     *
      * @return bool
      */
     public function __call($method, $args)
@@ -793,8 +792,6 @@ class Validator
     }
 
     /**
-     * @param $method
-     * @param $args
      * @return false|mixed
      */
     public static function __callStatic($method, $args)

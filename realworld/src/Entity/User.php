@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Article;
-use App\Dto\User\UserDto;
-use Doctrine\ORM\Mapping as ORM;
-use App\Repository\UserRepository;
 use App\Contracts\PasswordHasherInterface;
+use App\Dto\User\UserDto;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
@@ -33,7 +32,7 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     #[ORM\Column(type: 'string', length: 1024, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\OneToMany(mappedBy:'author', targetEntity: Article::class)]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Article::class)]
     private Collection $articles;
 
     /**
@@ -116,6 +115,7 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     {
         $this->roles = $roles;
     }
+
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
@@ -126,5 +126,4 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     {
         return UserDto::fromModel($this)->jsonSerialize();
     }
-
 }

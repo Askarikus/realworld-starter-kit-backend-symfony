@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Entity;
 
 // use App\Entity\Trait\TimestampableTrait;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\UuidV7;
 use App\Entity\Trait\TimestampableTrait;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\UuidV7;
 
 #[ORM\HasLifecycleCallbacks]
 abstract class AbstractEntity

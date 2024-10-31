@@ -6,10 +6,10 @@ namespace App\UseCase\ArticleTag;
 
 use App\Entity\Article;
 use App\Entity\ArticleTag;
-use App\UseCase\Tag\CreateTagUseCase;
 use App\Repository\ArticleTagRepository;
-use App\UseCase\Tag\GetTagByNameUseCase;
 use App\UseCase\Article\GetArticleByIdUseCase;
+use App\UseCase\Tag\CreateTagUseCase;
+use App\UseCase\Tag\GetTagByNameUseCase;
 
 class CreateArticleTagUseCase
 {

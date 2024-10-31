@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\LikeRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LikeRepository::class)]
 #[ORM\Table(name: 'like_table')]
@@ -41,6 +41,7 @@ class Like extends AbstractEntity
     {
         $this->articleId = $articleId;
     }
+
     public function getJson(): array
     {
         return [];

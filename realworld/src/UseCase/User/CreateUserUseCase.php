@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\UseCase\User;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
 use App\Helpers\Password\PasswordHasherHelper;
+use App\Repository\UserRepository;
 
 class CreateUserUseCase
 {
@@ -14,7 +14,6 @@ class CreateUserUseCase
         private readonly UserRepository $userRepository,
         private readonly PasswordHasherHelper $passwordHasherHelper,
     ) {
-
     }
 
     public function execute(
@@ -33,7 +32,7 @@ class CreateUserUseCase
         $fields = ['bio', 'image', 'name'];
 
         foreach ($fields as $field) {
-            $setter = 'set' . ucfirst($field);
+            $setter = 'set'.ucfirst($field);
             if (method_exists($user, $setter) && ${$field}) {
                 $user->{$setter}(${$field});
             }
@@ -42,7 +41,5 @@ class CreateUserUseCase
         $user = $this->userRepository->save($user);
 
         return $user;
-
     }
-
 }

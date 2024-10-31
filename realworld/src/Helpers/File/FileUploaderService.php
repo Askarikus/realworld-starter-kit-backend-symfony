@@ -8,7 +8,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class FileUploaderService
 {
@@ -18,7 +17,7 @@ class FileUploaderService
         private readonly string $appUrl,
         private readonly SluggerInterface $slugger,
         private readonly Filesystem $filesystem,
-        private readonly string $uploadsDirectory
+        private readonly string $uploadsDirectory,
     ) {
     }
 
@@ -26,12 +25,12 @@ class FileUploaderService
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
-        $fileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+        $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
         try {
-            $result = $file->move($this->uploadsDirectory. "/storage/", $fileName);
+            $result = $file->move($this->uploadsDirectory.'/storage/', $fileName);
 
-            return $this->appUrl . self::BASE_PATH . "/storage/" . $result->getBasename();
+            return $this->appUrl.self::BASE_PATH.'/storage/'.$result->getBasename();
         } catch (FileException $e) {
             echo $e->getMessage();
             throw new FileException('Failed to upload file');

@@ -7,10 +7,8 @@ use App\Repository\TagRepository;
 
 class GetAllTagsUseCase
 {
-
     public function __construct(private readonly TagRepository $tagRepository)
     {
-
     }
 
     /**
@@ -21,6 +19,7 @@ class GetAllTagsUseCase
     public function execute(): array
     {
         $tags = $this->tagRepository->findAll();
+
         return $tags;
     }
 }

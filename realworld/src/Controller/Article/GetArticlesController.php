@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace App\Controller\Article;
 
 use App\Entity\Article;
-use Pagerfanta\Pagerfanta;
 use App\Helpers\Request\BaseRequest;
-use Pagerfanta\Adapter\ArrayAdapter;
-use App\UseCase\User\GetAuthUserUseCase;
 use App\UseCase\Article\GetAllArticlesUseCase;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use App\UseCase\Article\GetArticlesByTagUseCase;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use App\UseCase\Article\GetArticleResponseDtoUseCase;
 use App\UseCase\Article\GetArticlesByAuthorNameUseCase;
+use App\UseCase\Article\GetArticlesByTagUseCase;
+use App\UseCase\User\GetAuthUserUseCase;
+use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GetArticlesController extends AbstractController
 {
@@ -26,9 +26,8 @@ class GetArticlesController extends AbstractController
         private readonly GetArticleResponseDtoUseCase $getArticleResponseDtoUseCase,
         private readonly GetArticlesByAuthorNameUseCase $getArticlesByAuthorNameUseCase,
         private readonly GetArticlesByTagUseCase $getArticlesByTagUseCase,
-        private readonly GetAuthUserUseCase $getAuthUserUseCase
+        private readonly GetAuthUserUseCase $getAuthUserUseCase,
     ) {
-
     }
 
     #[Route(path: 'articles', name: 'articles_get', methods: ['GET'])]
@@ -82,8 +81,8 @@ class GetArticlesController extends AbstractController
         return new JsonResponse(
             data: [
                 'articles' => $articlesResponseDto,
-                'articlesCount' =>  $nbResults ?? count($articles),
-                ],
+                'articlesCount' => $nbResults ?? count($articles),
+            ],
             status: Response::HTTP_OK,
         );
     }

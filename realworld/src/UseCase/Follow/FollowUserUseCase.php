@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\UseCase\Follow;
 
-use App\Repository\FollowRepository;
 use App\Entity\Follow;
 use App\Entity\User;
+use App\Repository\FollowRepository;
 use Symfony\Component\Security\Core\Security;
 
 class FollowUserUseCase
 {
     public function __construct(
         private readonly FollowRepository $followRepository,
-        private readonly Security $security
+        private readonly Security $security,
     ) {
     }
 

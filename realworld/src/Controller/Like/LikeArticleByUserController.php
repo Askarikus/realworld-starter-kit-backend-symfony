@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\Like;
 
 use App\Controller\BaseController;
-use App\UseCase\User\GetAuthUserUseCase;
+use App\UseCase\Article\GetArticleBySlugUseCase;
+use App\UseCase\Article\GetArticleResponseDtoUseCase;
 use App\UseCase\Like\LikeArticleByUserUseCase;
+use App\UseCase\User\GetAuthUserUseCase;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\UseCase\Article\GetArticleBySlugUseCase;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use App\UseCase\Article\GetArticleResponseDtoUseCase;
 
 class LikeArticleByUserController extends BaseController
 {
@@ -20,7 +20,6 @@ class LikeArticleByUserController extends BaseController
         private readonly GetAuthUserUseCase $getAuthUserUseCase,
         private readonly GetArticleBySlugUseCase $getArticleBySlugUseCase,
         private readonly GetArticleResponseDtoUseCase $getArticleResponseDtoUseCase,
-
     ) {
     }
 
@@ -32,16 +31,17 @@ class LikeArticleByUserController extends BaseController
 
         $article = $this->getArticleBySlugUseCase->execute($slug);
 
-        if ($article === null) {
+        if (null === $article) {
             $this->createErrorResponse(['article' => ['Article not found.']]);
         }
 
         $article = $this->likeArticleByUserUseCase->execute(user: $user, article: $article);
         $articleResponseDto = $this->getArticleResponseDtoUseCase->execute($article);
+
         return new JsonResponse([
             'article' => [
-                $articleResponseDto->jsonSerialize()
-            ]
+                $articleResponseDto->jsonSerialize(),
+            ],
         ]);
     }
 }

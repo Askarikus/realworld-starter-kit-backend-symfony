@@ -3,22 +3,22 @@
 namespace App\Controller\Article;
 
 use App\Controller\BaseController;
-use App\Helpers\Request\BaseRequest;
-use App\UseCase\User\GetAuthUserUseCase;
-use App\UseCase\Article\EditArticleUseCase;
 use App\Dto\Article\CreateArticleRequestDto;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Helpers\Request\BaseRequest;
+use App\UseCase\Article\EditArticleUseCase;
+use App\UseCase\Article\GetArticleResponseDtoUseCase;
+use App\UseCase\User\GetAuthUserUseCase;
 use App\Validator\Article\CreateArticleValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\UseCase\Article\GetArticleResponseDtoUseCase;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class EditArticleController extends BaseController
 {
     public function __construct(
         private readonly EditArticleUseCase $editArticleUseCase,
         private readonly GetArticleResponseDtoUseCase $getArticleResponseDtoUseCase,
-        private readonly GetAuthUserUseCase $getAuthUserUseCase
+        private readonly GetAuthUserUseCase $getAuthUserUseCase,
     ) {
     }
 
@@ -31,7 +31,7 @@ class EditArticleController extends BaseController
 
         $validator = new CreateArticleValidator();
 
-        if(!$validator->batch()->check($requestData)) {
+        if (!$validator->batch()->check($requestData)) {
             return $this->createErrorResponse($validator->batch()->getError());
         }
 

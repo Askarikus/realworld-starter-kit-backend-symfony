@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Follow;
 
 use App\Controller\BaseController;
+use App\UseCase\Follow\UnfollowUserUseCase;
 use App\UseCase\User\GetAuthUserUseCase;
 use App\UseCase\User\GetUserByNameUseCase;
-use App\UseCase\Follow\UnfollowUserUseCase;
 use App\UseCase\User\GetUserProfileResponseDto;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
 class UnFollowByUserController extends BaseController
 {
@@ -30,15 +30,15 @@ class UnFollowByUserController extends BaseController
         $user = $this->getAuthUserUseCase->execute();
 
         $userCeleb = $this->getUserByNameUseCase->execute($username);
-        if($userCeleb === null) {
+        if (null === $userCeleb) {
             $this->createErrorResponse(['user' => ['User not found.']]);
         }
 
         $this->unfollowUserUseCase->execute(follower: $user, celeb: $userCeleb);
         $userCelebProfileResponseDto = $this->getUserProfileResponseDto->execute($user, $userCeleb);
+
         return new JsonResponse(
-            data:['profile' =>
-                $userCelebProfileResponseDto->jsonSerialize()
+            data: ['profile' => $userCelebProfileResponseDto->jsonSerialize(),
             ],
             status: JsonResponse::HTTP_OK
         );

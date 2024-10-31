@@ -9,7 +9,6 @@ use App\Repository\ArticleRepository;
 
 class GetArticleBySlugUseCase
 {
-
     public function __construct(
         private readonly ArticleRepository $articleRepository,
     ) {
@@ -18,7 +17,7 @@ class GetArticleBySlugUseCase
     public function execute(string $slug): ?Article
     {
         $article = $this->articleRepository->findOneBy([
-            'slug' => $slug
+            'slug' => $slug,
         ]);
 
         return $article;

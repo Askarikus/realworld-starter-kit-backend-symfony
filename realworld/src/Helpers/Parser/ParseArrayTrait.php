@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Helpers\Parser;
 
-use Exception;
-
 trait ParseArrayTrait
 {
     use PrepareParseExceptionTrait;
@@ -24,8 +22,8 @@ trait ParseArrayTrait
         }
 
         try {
-            return (array)$value;
-        } catch (Exception) {
+            return (array) $value;
+        } catch (\Exception) {
             throw self::prepareParseException();
         }
     }
@@ -36,12 +34,14 @@ trait ParseArrayTrait
     protected static function parseArray(mixed &$value, ?array $defaultValue = null): array
     {
         $castedValue = self::parseNullableArray($value);
-        if ($castedValue === null) {
-            if ($defaultValue === null) {
+        if (null === $castedValue) {
+            if (null === $defaultValue) {
                 throw self::prepareParseException();
             }
+
             return $defaultValue;
         }
+
         return $castedValue;
     }
 }

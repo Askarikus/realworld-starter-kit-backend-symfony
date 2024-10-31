@@ -9,7 +9,7 @@ use App\Repository\ArticleRepository;
 class GetArticleByUserIdUseCase
 {
     public function __construct(
-        private readonly ArticleRepository $articleRepository
+        private readonly ArticleRepository $articleRepository,
     ) {
     }
 

@@ -33,7 +33,7 @@ trait GenerateUniqueSlugTrait
 
         if (!in_array($slug, $existingSlugs)) {
             // Slug is unique, no need to append numbers
-            return $slug . ($slugNumber ? "-$slugNumber" : '');
+            return $slug.($slugNumber ? "-$slugNumber" : '');
         }
 
         // Increment the number until a unique slug is found
@@ -41,22 +41,22 @@ trait GenerateUniqueSlugTrait
         $uniqueSlugFound = false;
 
         while (!$uniqueSlugFound) {
-            $newSlug = $slug . '-' . $i;
+            $newSlug = $slug.'-'.$i;
 
             if (!in_array($newSlug, $existingSlugs)) {
                 // Unique slug found
                 return $newSlug;
             }
 
-            $i++;
+            ++$i;
         }
 
         // Fallback: return the original slug with a random number appended
-        return $originalSlug . '-' . mt_rand(1000, 9999);
+        return $originalSlug.'-'.mt_rand(1000, 9999);
     }
 
     private function getExistingSlugs(string $slug, AbstractRepository $repository): array
     {
-        return array_map(function ($article){return $article->getSlug();} ,$repository->search('slug', $slug));
+        return array_map(function ($article) {return $article->getSlug(); }, $repository->search('slug', $slug));
     }
 }

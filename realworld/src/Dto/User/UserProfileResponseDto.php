@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Dto\User;
 
+use App\Dto\AbstractResponseDto;
+use App\Entity\AbstractEntity;
 use App\Entity\User;
 use App\Entity\UserEntity;
-use App\Entity\AbstractEntity;
-use App\Dto\AbstractResponseDto;
 
 final class UserProfileResponseDto extends AbstractResponseDto
 {
@@ -36,14 +36,17 @@ final class UserProfileResponseDto extends AbstractResponseDto
     {
         return $this->name;
     }
+
     public function getBio(): ?string
     {
         return $this->bio;
     }
+
     public function getImage(): ?string
     {
         return $this->image;
     }
+
     public function getIsFollowedByCeleb(): bool
     {
         return $this->isFollowedByCeleb;
@@ -66,5 +69,4 @@ final class UserProfileResponseDto extends AbstractResponseDto
             'follow' => $this->getIsFollowedByCeleb(),
         ];
     }
-
 }

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Helpers\Parser;
 
-use Exception;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
-
 trait ParseStringTrait
 {
     use PrepareParseExceptionTrait;
@@ -15,12 +12,12 @@ trait ParseStringTrait
     protected static function parseNullableString(mixed &$value): ?string
     {
         try {
-            if ($value === null) {
+            if (null === $value) {
                 return null;
             }
 
-            return (string)$value;
-        } catch (Exception $error) {
+            return (string) $value;
+        } catch (\Exception $error) {
             throw self::prepareParseException($error->getMessage());
         }
     }
@@ -29,10 +26,11 @@ trait ParseStringTrait
     protected static function parseString(mixed &$value, ?string $defaultValue = null): string
     {
         $castedValue = self::parseNullableString($value);
-        if ($castedValue === null) {
-            if ($defaultValue === null) {
+        if (null === $castedValue) {
+            if (null === $defaultValue) {
                 throw self::prepareParseException();
             }
+
             return $defaultValue;
         }
 

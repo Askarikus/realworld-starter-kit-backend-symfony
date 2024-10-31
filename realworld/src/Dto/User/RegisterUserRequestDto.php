@@ -28,7 +28,6 @@ final class RegisterUserRequestDto extends AbstractRequestDto
         #[Assert\NotNull]
         private readonly string $name,
     ) {
-
     }
 
     public static function fromArray(array $data): static
@@ -44,10 +43,12 @@ final class RegisterUserRequestDto extends AbstractRequestDto
     {
         return $this->email;
     }
+
     public function getPassword(): string
     {
         return $this->password;
     }
+
     public function getName(): string
     {
         return $this->name;

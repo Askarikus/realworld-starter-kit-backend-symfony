@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Dto\User;
 
-use App\Entity\User;
-use App\Dto\AbstractDto;
-use App\Entity\UserEntity;
-use App\Entity\AbstractEntity;
 use App\Dto\AbstractResponseDto;
+use App\Entity\AbstractEntity;
+use App\Entity\User;
+use App\Entity\UserEntity;
 use Symfony\Component\Uid\UuidV7;
 
 final class UserDto extends AbstractResponseDto
@@ -22,7 +21,6 @@ final class UserDto extends AbstractResponseDto
 
         private readonly ?\DateTimeImmutable $created_at,
         private readonly ?\DateTimeImmutable $updated_at,
-
     ) {
     }
 
@@ -56,10 +54,12 @@ final class UserDto extends AbstractResponseDto
     {
         return $this->name;
     }
+
     public function getBio(): ?string
     {
         return $this->name;
     }
+
     public function getImage(): ?string
     {
         return $this->name;

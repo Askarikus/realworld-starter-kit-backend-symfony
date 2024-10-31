@@ -9,7 +9,7 @@ use App\Repository\FollowRepository;
 class IsUserFollowByCelebUseCase
 {
     public function __construct(
-        private readonly FollowRepository $followRepository
+        private readonly FollowRepository $followRepository,
     ) {
     }
 
@@ -20,6 +20,6 @@ class IsUserFollowByCelebUseCase
             'celebId' => $celebId,
         ]);
 
-        return $follow !== null;
+        return null !== $follow;
     }
 }

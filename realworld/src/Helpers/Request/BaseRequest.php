@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class BaseRequest
 {
     public function __construct(
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
     ) {
     }
 
@@ -37,7 +37,7 @@ class BaseRequest
             throw new HttpException(statusCode: 400, message: 'Malformed JSON input');
         }
 
-        /** @var mixed[] $input */
+        /* @var mixed[] $input */
         return $input;
     }
 }

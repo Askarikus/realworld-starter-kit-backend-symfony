@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace App\UseCase\User;
 
-use App\Entity\User;
 use App\Dto\User\RegisterUserRequestDto;
+use App\Entity\User;
 use App\Exception\User\UserAlreadyExistException;
 
 class RegisterUserUseCase
 {
     public function __construct(
         private readonly CreateUserUseCase $createUserUseCase,
-        private readonly IsUserWithEmailExistUseCase $checkSameUserByEmailUseCase
+        private readonly IsUserWithEmailExistUseCase $checkSameUserByEmailUseCase,
     ) {
-
     }
 
     public function execute(RegisterUserRequestDto $registerUserRequestDto): User
@@ -27,10 +26,8 @@ class RegisterUserUseCase
             $registerUserRequestDto->getEmail(),
             $registerUserRequestDto->getPassword(),
             $registerUserRequestDto->getName(),
-
         );
+
         return $user;
-
     }
-
 }

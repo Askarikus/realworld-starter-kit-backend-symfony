@@ -4,33 +4,35 @@ namespace App\Language;
 
 /**
  * Handle system messages and localization.
+ *
  * @SuppressWarnings(PHPMD.ElseExpression)
  */
 class Language
 {
     /**
      * The current language/locale to work with.
+     *
      * @var string
      */
     protected $locale = 'en';
 
-    //Путь к директории с файлами переводов
-    protected $filesDirPath =  __DIR__ . '/../langs/';
+    // Путь к директории с файлами переводов
+    protected $filesDirPath = __DIR__.'/../langs/';
 
-    //загруженные переводы
+    // загруженные переводы
     protected $translates = [];
 
     public function __construct()
     {
-
     }
 
     public static function getInstance(): Language
     {
         static $instance;
-        if ($instance === null) {
+        if (null === $instance) {
             $instance = new self();
         }
+
         return $instance;
     }
 
@@ -92,18 +94,18 @@ class Language
     }
 
     /**
-     * example:   filename.Text
+     * example:   filename.Text.
      */
     protected function parseLine(string $line): array
     {
-        if (strpos($line, '.') === false) {
+        if (false === strpos($line, '.')) {
             $file = 'default';
         } else {
             list($file, $line) = explode('.', $line, 2);
         }
 
         $file = str_replace('/', '_', $file);
-        $line = str_replace("\r", "", $line);
+        $line = str_replace("\r", '', $line);
 
         return [trim($file), trim($line)];
     }
@@ -135,7 +137,7 @@ class Language
     protected function load(string $translateFile, string $locale)
     {
         $path = "{$locale}/{$translateFile}.php";
-        $file = realpath($this->filesDirPath . $path);
+        $file = realpath($this->filesDirPath.$path);
 
         if (\is_file($file)) {
             $lang = include $file;
@@ -151,7 +153,6 @@ class Language
     //  */
     // protected function save(string $translateFile, string $locale, string $line)
     // {
-
 
     //     $path = "{$locale}/{$translateFile}.php";
     //     $file = $this->filesDirPath . $path;
