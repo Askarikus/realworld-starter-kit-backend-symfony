@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Fuctional;
+namespace App\Tests\Functional;
 
 use Faker\Factory;
 use Faker\Generator;
@@ -30,11 +30,15 @@ abstract class AppTestCase extends WebTestCase
         $this->jwtClient = static::createClient();
         $this->jwtClient->disableReboot();
 
-        $this->nonSecureClient = static::createClient();
-        $this->nonSecureClient->disableReboot();
+        // $this->nonSecureClient = static::createClient();
+        // $this->nonSecureClient->disableReboot();
 
         $encoder = $this->jwtClient->getContainer()->get(JWTEncoderInterface::class);
-        $payload = $encoder->encode(['username' => 'blank@blank.ru', 'password' => '123']);
+        $payload = $encoder->encode([
+            'username' => 'user@user.com',
+            'user' =>
+            ['email' => 'user@user.com', 'password' => '1234567']
+        ]);
         $this->jwtClient->setServerParameter('HTTP_AUTHORIZATION', sprintf('Bearer %s', $payload));
     }
 }

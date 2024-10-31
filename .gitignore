@@ -36,3 +36,5 @@ yarn-debug.log*
 yarn-error.log*
 logs/nginx/error.log
 .vscode/launch.json
+realworld/.env.test
+realworld/.phpunit.cache/test-results
