@@ -24,7 +24,7 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     private ?string $password;
 
     #[ORM\Column(type: 'string', length: 255, nullable: false)]
-    private string $name;
+    private string $username;
 
     #[ORM\Column(type: 'string', length: 2048, nullable: true)]
     private ?string $bio = null;
@@ -43,12 +43,12 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
 
     public function getName(): ?string
     {
-        return $this->name;
+        return $this->username;
     }
 
-    public function setName(?string $name): void
+    public function setName(?string $username): void
     {
-        $this->name = $name;
+        $this->username = $username;
     }
 
     public function getEmail(): string
