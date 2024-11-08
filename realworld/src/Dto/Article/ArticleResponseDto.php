@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Dto\Article;
 
-use App\Entity\Article;
-use App\Entity\AbstractEntity;
 use App\Dto\AbstractResponseDto;
 use App\Dto\User\UserResponseDto;
+use App\Entity\AbstractEntity;
+use App\Entity\Article;
 use App\Helpers\Parser\ParseDtoTrait;
 
 final class ArticleResponseDto extends AbstractResponseDto
@@ -15,9 +15,8 @@ final class ArticleResponseDto extends AbstractResponseDto
     use ParseDtoTrait;
 
     private ?array $tagList = [];
-    private array $favoritedBy;
-    private bool $favorited;
-    private $favoritesCount;
+    private bool $favoritedByCurrentUser = false;
+    private int $favoritesCount = 0;
 
     public function __construct(
         private readonly string $slug,
@@ -27,14 +26,13 @@ final class ArticleResponseDto extends AbstractResponseDto
         private readonly UserResponseDto $author,
         private readonly \DateTimeImmutable $createdAt,
     ) {
-
     }
 
     public static function fromModel(Article|AbstractEntity $article): static
     {
         return new static(
             slug: $article->getSlug(),
-            title:$article->getTitle(),
+            title: $article->getTitle(),
             description: $article->getDescription(),
             body: $article->getBody(),
             author: self::parseResponseDto(UserResponseDto::class, $article->getAuthor()),
@@ -81,24 +79,17 @@ final class ArticleResponseDto extends AbstractResponseDto
     {
         $this->tagList = $tagsList;
     }
-    public function getFavoritedBy(): array
+
+    public function getFavoritedByCurrentUser(): bool
     {
-        return $this->favoritedBy;
+        return $this->favoritedByCurrentUser;
     }
 
-    public function setFavoritedBy(array $favoritedList): void
+    public function setFavoritedByCurrentUser(bool $favoritedByCurrentUser): void
     {
-        $this->favoritedBy = $favoritedList;
-    }
-    public function isFavorited(): bool
-    {
-        return $this->favorited;
+        $this->favoritedByCurrentUser = $favoritedByCurrentUser;
     }
 
-    public function setFavorited(bool $favorited): void
-    {
-        $this->favorited = $favorited;
-    }
     public function getFavoritesCount(): int
     {
         return $this->favoritesCount;
@@ -118,8 +109,7 @@ final class ArticleResponseDto extends AbstractResponseDto
             'body' => $this->getBody(),
             'author' => $this->getAuthor(),
             'tagList' => $this->getTagsList(),
-            'favoiritedBy' => $this->getFavoritedBy(),
-            'favorited' => $this->isFavorited(),
+            'favoritedByCurrentUser' => $this->getFavoritedByCurrentUser(),
             'favoritesCount' => $this->getFavoritesCount(),
             'createdAt' => $this->getCreatedAt(),
         ];

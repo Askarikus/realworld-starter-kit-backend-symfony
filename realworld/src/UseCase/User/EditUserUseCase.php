@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\UseCase\User;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
 use App\Dto\User\EditUserRequestDto;
+use App\Entity\User;
 use App\Helpers\Password\PasswordHasherHelper;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EditUserUseCase
@@ -20,7 +20,7 @@ class EditUserUseCase
 
     public function execute(
         string $userId,
-        EditUserRequestDto $editUserRequestDto
+        EditUserRequestDto $editUserRequestDto,
     ): ?User {
         $user = $this->userRepository->find($userId);
 
@@ -30,10 +30,10 @@ class EditUserUseCase
 
         $fields = ['email', 'name', 'bio', 'image'];
         foreach ($fields as $field) {
-            if (method_exists($editUserRequestDto, 'get' . ucfirst($field))) {
-                if ($editUserRequestDto->{'get' . ucfirst($field)}()) {
-                    if (method_exists($user, 'set' . ucfirst($field))) {
-                        $user->{'set' . ucfirst($field)}($editUserRequestDto->{'get' . ucfirst($field)}());
+            if (method_exists($editUserRequestDto, 'get'.ucfirst($field))) {
+                if ($editUserRequestDto->{'get'.ucfirst($field)}()) {
+                    if (method_exists($user, 'set'.ucfirst($field))) {
+                        $user->{'set'.ucfirst($field)}($editUserRequestDto->{'get'.ucfirst($field)}());
                     }
                 }
             }

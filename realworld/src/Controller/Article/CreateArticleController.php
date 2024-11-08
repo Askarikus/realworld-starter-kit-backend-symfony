@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace App\Controller\Article;
 
 use App\Controller\BaseController;
-use App\Helpers\Request\BaseRequest;
 use App\Dto\Article\CreateArticleRequestDto;
+use App\Helpers\Request\BaseRequest;
 use App\UseCase\Article\CreateArticleUseCase;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use App\UseCase\Article\GetArticleResponseDtoUseCase;
 use App\Validator\Article\CreateArticleValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\UseCase\Article\GetArticleResponseDtoUseCase;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CreateArticleController extends BaseController
 {
     public function __construct(
         private readonly CreateArticleUseCase $createArticleUseCase,
-        private readonly GetArticleResponseDtoUseCase $getArticleResponseDtoUseCase
+        private readonly GetArticleResponseDtoUseCase $getArticleResponseDtoUseCase,
     ) {
     }
 
@@ -29,7 +29,7 @@ class CreateArticleController extends BaseController
 
         $validator = new CreateArticleValidator();
 
-        if(!$validator->batch()->check($requestData)) {
+        if (!$validator->batch()->check($requestData)) {
             return $this->createErrorResponse($validator->batch()->getError());
         }
 

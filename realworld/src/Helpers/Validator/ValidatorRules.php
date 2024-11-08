@@ -3,8 +3,8 @@
 namespace App\Helpers\Validator;
 
 use Psr\Http\Message\UploadedFileInterface;
-use SplFileObject;
 use SplFileInfo;
+use SplFileObject;
 
 /**
  * @SuppressWarnings(PHPMD)
@@ -12,29 +12,31 @@ use SplFileInfo;
 trait ValidatorRules
 {
     /**
-     * Verify that it is consistent with the value of a field
-     * @access public
-     * @param mixed     $value field value
-     * @param mixed     $rule  validation rules
-     * @param array     $data  data
-     * @param string    $field field name
+     * Verify that it is consistent with the value of a field.
+     *
+     * @param mixed  $value field value
+     * @param mixed  $rule  validation rules
+     * @param array  $data  data
+     * @param string $field field name
+     *
      * @return bool
      */
     public function confirm($value, $rule, $data = [], $field = '')
     {
         if ('' == $rule) {
-            $rule = strpos($field, '_confirm') ? strstr($field, '_confirm', true) : $field . '_confirm';
+            $rule = strpos($field, '_confirm') ? strstr($field, '_confirm', true) : $field.'_confirm';
         }
 
         return $this->getDataValue($data, $rule) === $value;
     }
 
     /**
-     * Verify whether it is different from the value of a field
-     * @access public
+     * Verify whether it is different from the value of a field.
+     *
      * @param mixed $value field value
      * @param mixed $rule  validation rules
      * @param array $data  data
+     *
      * @return bool
      */
     public function different($value, $rule, $data = [])
@@ -43,11 +45,12 @@ trait ValidatorRules
     }
 
     /**
-     * Verify if greater than or equal to a certain value
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
-     * @param array     $data  data
+     * Verify if greater than or equal to a certain value.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     * @param array $data  data
+     *
      * @return bool
      */
     public function gte($value, $rule, $data = [])
@@ -56,11 +59,12 @@ trait ValidatorRules
     }
 
     /**
-     * Verify if it is greater than a certain value
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
-     * @param array     $data  data
+     * Verify if it is greater than a certain value.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     * @param array $data  data
+     *
      * @return bool
      */
     public function gt($value, $rule, $data)
@@ -69,11 +73,12 @@ trait ValidatorRules
     }
 
     /**
-     * Verify if it is less than or equal to a value
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
-     * @param array     $data  data
+     * Verify if it is less than or equal to a value.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     * @param array $data  data
+     *
      * @return bool
      */
     public function lte($value, $rule, $data = [])
@@ -82,11 +87,12 @@ trait ValidatorRules
     }
 
     /**
-     * Verify if it is less than a certain value
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
-     * @param array     $data  data
+     * Verify if it is less than a certain value.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     * @param array $data  data
+     *
      * @return bool
      */
     public function lt($value, $rule, $data = [])
@@ -95,10 +101,11 @@ trait ValidatorRules
     }
 
     /**
-     * Verify that it is equal to a value
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * Verify that it is equal to a value.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function eq($value, $rule)
@@ -107,9 +114,10 @@ trait ValidatorRules
     }
 
     /**
-     * must be verified
-     * @access public
-     * @param mixed     $value  field value
+     * must be verified.
+     *
+     * @param mixed $value field value
+     *
      * @return bool
      */
     public function must($value)
@@ -126,6 +134,7 @@ trait ValidatorRules
 
         try {
             $info = getimagesize($image);
+
             return $info ? $info[2] : false;
         } catch (\Exception $e) {
             return false;
@@ -134,10 +143,11 @@ trait ValidatorRules
 
     /**
      * Verify whether it is a qualified domain name or IP
-     * supports A, MX, NS, SOA, PTR, CNAME, AAAA, A6, SRV, NAPTR, TXT or ANY types
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * supports A, MX, NS, SOA, PTR, CNAME, AAAA, A6, SRV, NAPTR, TXT or ANY types.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function activeUrl($value, $rule = 'MX')
@@ -150,10 +160,11 @@ trait ValidatorRules
     }
 
     /**
-     * ValidateIP
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules ipv4 ipv6
+     * ValidateIP.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules ipv4 ipv6
+     *
      * @return bool
      */
     public function ip($value, $rule = 'ipv4')
@@ -166,9 +177,11 @@ trait ValidatorRules
     }
 
     /**
-     * Detect upload file suffix
-     * @param SplFileObject|UploadedFileInterface     $file  upload files
-     * @param  array|string     $ext    allow suffix
+     * Detect upload file suffix.
+     *
+     * @param \SplFileObject|UploadedFileInterface $file upload files
+     * @param array|string                         $ext  allow suffix
+     *
      * @return bool
      */
     protected function checkExt($file, $ext)
@@ -187,10 +200,11 @@ trait ValidatorRules
     }
 
     /**
-     * Verify uploaded file suffix
-     * @access public
-     * @param SplFileObject|UploadedFileInterface     $file  upload files
-     * @param mixed             $rule  validation rules
+     * Verify uploaded file suffix.
+     *
+     * @param \SplFileObject|UploadedFileInterface $file upload files
+     * @param mixed                                $rule validation rules
+     *
      * @return bool
      */
     public function fileExt($file, $rule)
@@ -203,8 +217,10 @@ trait ValidatorRules
     }
 
     /**
-     * Get file type information
-     * @param SplFileObject|UploadedFileInterface     $file  upload files
+     * Get file type information.
+     *
+     * @param \SplFileObject|UploadedFileInterface $file upload files
+     *
      * @return string
      */
     protected function getMime($file)
@@ -218,9 +234,11 @@ trait ValidatorRules
     }
 
     /**
-     * Detect upload file type
-     * @param SplFileObject|UploadedFileInterface     $file  upload files
-     * @param  array|string     $mime    allowed type
+     * Detect upload file type.
+     *
+     * @param \SplFileObject|UploadedFileInterface $file upload files
+     * @param array|string                         $mime allowed type
+     *
      * @return bool
      */
     protected function checkMime($file, $mime)
@@ -233,10 +251,11 @@ trait ValidatorRules
     }
 
     /**
-     * Verify upload file type
-     * @access public
-     * @param SplFileObject|UploadedFileInterface     $file  upload files
-     * @param mixed             $rule  validation rules
+     * Verify upload file type.
+     *
+     * @param \SplFileObject|UploadedFileInterface $file upload files
+     * @param mixed                                $rule validation rules
+     *
      * @return bool
      */
     public function fileMime($file, $rule)
@@ -249,10 +268,11 @@ trait ValidatorRules
     }
 
     /**
-     * Verify upload file size
-     * @access public
-     * @param SplFileObject|UploadedFileInterface     $file  upload files
-     * @param mixed             $rule  validation rules
+     * Verify upload file size.
+     *
+     * @param \SplFileObject|UploadedFileInterface $file upload files
+     * @param mixed                                $rule validation rules
+     *
      * @return bool
      */
     public function fileSize($file, $rule)
@@ -267,10 +287,11 @@ trait ValidatorRules
     }
 
     /**
-     * Verify the width, height and type of the image
-     * @access public
-     * @param SplFileObject|UploadedFileInterface     $file  upload files
-     * @param mixed             $rule  validation rules
+     * Verify the width, height and type of the image.
+     *
+     * @param \SplFileObject|UploadedFileInterface $file upload files
+     * @param mixed                                $rule validation rules
+     *
      * @return bool
      */
     public function image($file, $rule)
@@ -332,10 +353,11 @@ trait ValidatorRules
     }
 
     /**
-     * Authentication request type
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * Authentication request type.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function method($value, $rule)
@@ -344,23 +366,26 @@ trait ValidatorRules
     }
 
     /**
-     * Verify that the time and date conform to the specified format
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * Verify that the time and date conform to the specified format.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function dateFormat($value, $rule)
     {
         $info = date_parse_from_format($rule, $value);
+
         return 0 == $info['warning_count'] && 0 == $info['error_count'];
     }
 
     /**
-     * Use filter_var to verify
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * Use filter_var to verify.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function filter($value, $rule)
@@ -378,11 +403,12 @@ trait ValidatorRules
     }
 
     /**
-     * When verifying that a field is equal to a certain value, it must
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
-     * @param array     $data  data
+     * When verifying that a field is equal to a certain value, it must.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     * @param array $data  data
+     *
      * @return bool
      */
     public function requireIf($value, $rule, $data)
@@ -397,11 +423,12 @@ trait ValidatorRules
     }
 
     /**
-     * Verify whether a field is required through the callback method
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
-     * @param array     $data  data
+     * Verify whether a field is required through the callback method.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     * @param array $data  data
+     *
      * @return bool
      */
     public function requireCallback($value, $rule, $data)
@@ -420,11 +447,12 @@ trait ValidatorRules
     }
 
     /**
-     * Required to verify that a field has a value
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
-     * @param array     $data  data
+     * Required to verify that a field has a value.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     * @param array $data  data
+     *
      * @return bool
      */
     public function requireWith($value, $rule, $data)
@@ -439,10 +467,11 @@ trait ValidatorRules
     }
 
     /**
-     * Verify that it is in range
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * Verify that it is in range.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function in($value, $rule)
@@ -463,10 +492,11 @@ trait ValidatorRules
     }
 
     /**
-     * Verify that it is not in a range
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * Verify that it is not in a range.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function notIn($value, $rule)
@@ -475,10 +505,11 @@ trait ValidatorRules
     }
 
     /**
-     * between verify the data
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * between verify the data.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function between($value, $rule)
@@ -492,10 +523,11 @@ trait ValidatorRules
     }
 
     /**
-     * Validate data with notbetween
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * Validate data with notbetween.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function notBetween($value, $rule)
@@ -509,18 +541,19 @@ trait ValidatorRules
     }
 
     /**
-     * Verify data length
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * Verify data length.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function length($value, $rule)
     {
         if (is_array($value)) {
             $length = count($value);
-            // } elseif ($value instanceof SplFileObject || $value instanceof UploadedFileInterface) {
-            //     $length = $value->getSize();
+        // } elseif ($value instanceof SplFileObject || $value instanceof UploadedFileInterface) {
+        //     $length = $value->getSize();
         } else {
             $length = mb_strlen((string) $value);
         }
@@ -528,6 +561,7 @@ trait ValidatorRules
         if (strpos($rule, ',')) {
             // Length interval
             [$min, $max] = explode(',', $rule);
+
             return $length >= $min && $length <= $max;
         }
 
@@ -536,18 +570,19 @@ trait ValidatorRules
     }
 
     /**
-     * Validate the maximum length of the data
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * Validate the maximum length of the data.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function max($value, $rule)
     {
         if (is_array($value)) {
             $length = count($value);
-            // } elseif ($value instanceof SplFileObject || $value instanceof UploadedFileInterface) {
-            //     $length = $value->getSize();
+        // } elseif ($value instanceof SplFileObject || $value instanceof UploadedFileInterface) {
+        //     $length = $value->getSize();
         } elseif (is_numeric($value)) {
             $length = $value;
         } else {
@@ -558,31 +593,34 @@ trait ValidatorRules
     }
 
     /**
-     * Authentication data minimum length
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * Authentication data minimum length.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function min($value, $rule)
     {
         if (is_array($value)) {
             $length = count($value);
-            // } elseif ($value instanceof SplFileObject || $value instanceof UploadedFileInterface) {
-            //     $length = $value->getSize();
+        // } elseif ($value instanceof SplFileObject || $value instanceof UploadedFileInterface) {
+        //     $length = $value->getSize();
         } elseif (is_numeric($value)) {
             $length = $value;
         } else {
             $length = mb_strlen((string) $value);
         }
+
         return $length >= $rule;
     }
 
     /**
-     * verification date
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * verification date.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function after($value, $rule)
@@ -591,10 +629,11 @@ trait ValidatorRules
     }
 
     /**
-     * verification date
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * verification date.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function before($value, $rule)
@@ -603,10 +642,11 @@ trait ValidatorRules
     }
 
     /**
-     * Validation period
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
+     * Validation period.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
+     *
      * @return bool
      */
     public function expire($value, $rule)
@@ -633,11 +673,10 @@ trait ValidatorRules
     }
 
     /**
-     * verification phone
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  validation rules
-     * @return bool
+     * verification phone.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  validation rules
      */
     public function phone($value, $rule): bool
     {
@@ -647,11 +686,10 @@ trait ValidatorRules
     }
 
     /**
-     * Use regex to validate data
-     * @access public
-     * @param mixed     $value  field value
-     * @param mixed     $rule  Validation rules + regular rules or predefined regular names
-     * @return mixed
+     * Use regex to validate data.
+     *
+     * @param mixed $value field value
+     * @param mixed $rule  Validation rules + regular rules or predefined regular names
      */
     public function regex($value, $rule)
     {
@@ -661,7 +699,7 @@ trait ValidatorRules
 
         if (0 !== strpos($rule, '/') && !preg_match('/\/[imsU]{0,4}$/', $rule)) {
             // If it is not a regular expression, fill in both ends/
-            $rule = '/^' . $rule . '$/';
+            $rule = '/^'.$rule.'$/';
         }
 
         return is_scalar($value) && 1 === preg_match($rule, (string) $value);

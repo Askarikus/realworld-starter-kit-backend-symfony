@@ -3,14 +3,14 @@
 namespace App\Dto\Tag;
 
 use App\Dto\AbstractResponseDto;
-use App\Entity\Tag;
 use App\Entity\AbstractEntity;
+use App\Entity\Tag;
 
 final class TagResponseDto extends AbstractResponseDto
 {
     public function __construct(
         private readonly string $id,
-        private readonly string $name
+        private readonly string $name,
     ) {
     }
 

@@ -4,30 +4,29 @@ declare(strict_types=1);
 
 namespace App\Controller\File;
 
-use App\Dto\File\FileUploadDto;
-use App\Dto\User\UserResponseDto;
 use App\Controller\BaseController;
+use App\Dto\File\FileUploadDto;
 use App\Dto\User\EditUserRequestDto;
+use App\Dto\User\UserResponseDto;
 use App\Helpers\Request\BaseRequest;
-use App\UseCase\User\EditUserUseCase;
 use App\UseCase\File\FileUploadUseCase;
+use App\UseCase\User\EditUserUseCase;
 use App\UseCase\User\GetAuthUserUseCase;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class UploadFileController extends BaseController
 {
-
     public function __construct(
         private readonly FileUploadUseCase $fileUploadUseCase,
         private readonly EditUserUseCase $editUserUseCase,
         private readonly GetAuthUserUseCase $getAuthUserUseCase,
     ) {
-
     }
+
     #[Route(path: '/file-upload', name: 'file_upload', methods: ['POST'])]
     public function __invoke(BaseRequest $request)
     {
@@ -59,5 +58,4 @@ class UploadFileController extends BaseController
             Response::HTTP_CREATED
         );
     }
-
 }

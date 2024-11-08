@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\UseCase\Like;
 
-use App\Entity\User;
 use App\Entity\Article;
-use App\Repository\LikeRepository;
+use App\Entity\User;
 use App\Repository\ArticleRepository;
+use App\Repository\LikeRepository;
 
 class UnLikeArticleByUserUseCase
 {
     public function __construct(
         private readonly LikeRepository $likeRepository,
-        private readonly ArticleRepository $articleRepository
+        private readonly ArticleRepository $articleRepository,
     ) {
     }
 
@@ -21,10 +21,10 @@ class UnLikeArticleByUserUseCase
     {
         $like = $this->likeRepository->findOneBy([
             'userId' => $user->getStringId(),
-            'articleId' => $article->getStringId()
+            'articleId' => $article->getStringId(),
         ]);
 
-        if ($like !== null) {
+        if (null !== $like) {
             $this->likeRepository->delete($like);
         }
 

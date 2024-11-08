@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArticleRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'article')]
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]

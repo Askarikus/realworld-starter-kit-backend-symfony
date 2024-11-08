@@ -2,18 +2,16 @@
 
 namespace App\UseCase\Like;
 
+use App\Entity\Article;
 use App\Entity\Like;
 use App\Entity\User;
-use App\Entity\Article;
 use App\Repository\LikeRepository;
 
 class LikeArticleByUserUseCase
 {
-
     public function __construct(
         private readonly LikeRepository $likeRepository,
     ) {
-
     }
 
     public function execute(User $user, Article $article): Article

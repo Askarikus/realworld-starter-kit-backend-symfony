@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Helpers\Parser;
 
-use Exception;
-
 trait ParseDateTimeImmutableTrait
 {
     use PrepareParseExceptionTrait;
@@ -13,11 +11,12 @@ trait ParseDateTimeImmutableTrait
     protected static function parseNullableDateTimeImmutable(mixed &$value): ?\DateTimeImmutable
     {
         try {
-            if ($value === null) {
+            if (null === $value) {
                 return null;
             }
+
             return empty($value) ? null : \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $value);
-        } catch (Exception) {
+        } catch (\Exception) {
             throw self::prepareParseException();
         }
     }
@@ -25,12 +24,14 @@ trait ParseDateTimeImmutableTrait
     protected static function parseDateTimeImmutable(mixed &$value, ?float $defaultValue = null): \DateTimeImmutable
     {
         $castedValue = self::parseNullableDateTimeImmutable($value);
-        if ($castedValue === null) {
-            if ($defaultValue === null) {
+        if (null === $castedValue) {
+            if (null === $defaultValue) {
                 throw self::prepareParseException();
             }
+
             return $defaultValue;
         }
+
         return $castedValue;
     }
 }

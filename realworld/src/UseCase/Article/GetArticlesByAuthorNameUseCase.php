@@ -18,15 +18,14 @@ class GetArticlesByAuthorNameUseCase
     }
 
     /**
-     *
-     * @param string $authorId
      * @return Article[]|null
+     *
      * @throws NotFoundHttpException
      */
     public function execute(string $authorName): ?array
     {
         $author = $this->getUserByNameUseCase->execute($authorName);
-        if($author === null) {
+        if (null === $author) {
             throw new NotFoundHttpException('Author not found');
         }
 

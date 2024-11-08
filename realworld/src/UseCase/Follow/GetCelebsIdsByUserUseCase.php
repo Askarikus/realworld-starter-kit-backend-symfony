@@ -10,13 +10,11 @@ use App\Repository\FollowRepository;
 class GetCelebsIdsByUserUseCase
 {
     public function __construct(
-        private readonly FollowRepository $followRepository
+        private readonly FollowRepository $followRepository,
     ) {
     }
 
     /**
-     *
-     * @param User $user
      * @return string[]
      */
     public function execute(User $user): array
@@ -25,6 +23,7 @@ class GetCelebsIdsByUserUseCase
         $celebsIds = array_map(function ($follow) {
             return $follow->getCelebId();
         }, $follows);
+
         return $celebsIds;
     }
 }

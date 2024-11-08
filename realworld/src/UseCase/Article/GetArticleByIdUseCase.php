@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\UseCase\Article;
 
-use App\Repository\ArticleRepository;
 use App\Entity\Article;
+use App\Repository\ArticleRepository;
 
 class GetArticleByIdUseCase
 {

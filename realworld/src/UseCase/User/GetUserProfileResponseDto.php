@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\UseCase\User;
 
-use App\Entity\User;
 use App\Dto\User\UserProfileResponseDto;
+use App\Entity\User;
 
 class GetUserProfileResponseDto
 {

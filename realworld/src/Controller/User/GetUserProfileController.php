@@ -7,10 +7,10 @@ namespace App\Controller\User;
 use App\Controller\BaseController;
 use App\UseCase\User\GetAuthUserUseCase;
 use App\UseCase\User\GetUserByNameUseCase;
-use Symfony\Component\HttpFoundation\Response;
 use App\UseCase\User\GetUserProfileResponseDto;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GetUserProfileController extends BaseController
 {
@@ -30,15 +30,16 @@ class GetUserProfileController extends BaseController
 
         $userCeleb = $this->getUserByNameUseCase->execute($username);
 
-        if($userCeleb === null) {
+        if (null === $userCeleb) {
             $this->createErrorResponse(['user' => ['User not found.']]);
         }
 
         $userCelebProfileResponseDto = $this->getUserProfileResponseDto->execute($user, $userCeleb);
-        return new JsonResponse([
-            'profile' => [
-                $userCelebProfileResponseDto->jsonSerialize()
-            ]
-        ]);
+
+        return new JsonResponse(
+            data: ['profile' => $userCelebProfileResponseDto->jsonSerialize(),
+            ],
+            status: JsonResponse::HTTP_OK
+        );
     }
 }

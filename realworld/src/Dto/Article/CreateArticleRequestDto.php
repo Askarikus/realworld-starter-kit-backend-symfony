@@ -17,14 +17,13 @@ final class CreateArticleRequestDto extends AbstractRequestDto
         private readonly ?string $body,
         private readonly ?array $tagList,
     ) {
-
     }
 
     public static function fromArray(array $data): static
     {
         return new static(
-            title:self::parseNullableString($data['title']),
-            description:self::parseNullableString($data['description']),
+            title: self::parseNullableString($data['title']),
+            description: self::parseNullableString($data['description']),
             body: self::parseNullableString($data['body']),
             tagList: self::parseNullableArray($data['tagList']),
         );
@@ -44,6 +43,7 @@ final class CreateArticleRequestDto extends AbstractRequestDto
     {
         return $this->body;
     }
+
     public function getTagList(): ?array
     {
         return $this->tagList;
@@ -58,5 +58,4 @@ final class CreateArticleRequestDto extends AbstractRequestDto
             'tag_list' => $this->tagList,
         ];
     }
-
 }

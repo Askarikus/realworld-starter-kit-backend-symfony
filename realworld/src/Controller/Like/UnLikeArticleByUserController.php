@@ -1,17 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Like;
 
 use App\Controller\BaseController;
-use App\UseCase\User\GetAuthUserUseCase;
-use Symfony\Component\Routing\Annotation\Route;
 use App\UseCase\Article\GetArticleBySlugUseCase;
-use App\UseCase\Like\UnLikeArticleByUserUseCase;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use App\UseCase\Article\GetArticleResponseDtoUseCase;
-
-
+use App\UseCase\Like\UnLikeArticleByUserUseCase;
+use App\UseCase\User\GetAuthUserUseCase;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
 class UnLikeArticleByUserController extends BaseController
 {
@@ -31,7 +30,7 @@ class UnLikeArticleByUserController extends BaseController
         $user = $this->getAuthUserUseCase->execute();
         $article = $this->getArticleBySlugUseCase->execute($slug);
 
-        if ($article === null) {
+        if (null === $article) {
             return $this->createErrorResponse(['article' => ['Article not found.']]);
         }
 
@@ -40,8 +39,8 @@ class UnLikeArticleByUserController extends BaseController
 
         return new JsonResponse([
             'article' => [
-                $articleResponseDto->jsonSerialize()
-            ]
+                $articleResponseDto->jsonSerialize(),
+            ],
         ]);
     }
 }

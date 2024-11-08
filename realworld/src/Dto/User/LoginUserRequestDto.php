@@ -21,9 +21,8 @@ final class LoginUserRequestDto extends AbstractRequestDto
         #[Assert\Type('string')]
         #[Assert\NotBlank]
         #[Assert\NotNull]
-        private readonly string $password
+        private readonly string $password,
     ) {
-
     }
 
     public static function fromArray(array $data): static
@@ -38,6 +37,7 @@ final class LoginUserRequestDto extends AbstractRequestDto
     {
         return $this->email;
     }
+
     public function getPassword(): string
     {
         return $this->password;
@@ -47,7 +47,7 @@ final class LoginUserRequestDto extends AbstractRequestDto
     {
         return [
             'email' => $this->getEmail(),
-            'password' => $this->getPassword()
+            'password' => $this->getPassword(),
         ];
     }
 }

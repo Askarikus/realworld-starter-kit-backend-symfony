@@ -45,10 +45,12 @@ final class EditUserRequestDto extends AbstractRequestDto
     {
         return $this->email;
     }
+
     public function getPassword(): ?string
     {
         return $this->password;
     }
+
     public function getName(): ?string
     {
         return $this->name;
@@ -58,6 +60,7 @@ final class EditUserRequestDto extends AbstractRequestDto
     {
         return $this->bio;
     }
+
     public function getImage(): ?string
     {
         return $this->image;

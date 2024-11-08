@@ -26,3 +26,6 @@ services:
         arguments:
             $appUrl: '%env(APP_URL)%'
             $uploadsDirectory: '%kernel.project_dir%/public/uploads/'
+
+    App\Fixtures\:
+        resource: '../fixtures'

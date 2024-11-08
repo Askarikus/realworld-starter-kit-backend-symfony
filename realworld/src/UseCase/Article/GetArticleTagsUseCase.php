@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\UseCase\Article;
 
 use App\Entity\Tag;
-use App\UseCase\Tag\GetTagByIdUseCase;
 use App\Repository\ArticleTagRepository;
+use App\UseCase\Tag\GetTagByIdUseCase;
 
 class GetArticleTagsUseCase
 {
@@ -17,7 +17,6 @@ class GetArticleTagsUseCase
     }
 
     /**
-     * @param string $articleId
      * @return Tag[]
      */
     public function execute(string $articleId): array
@@ -27,6 +26,7 @@ class GetArticleTagsUseCase
         foreach ($articleTags as $articleTag) {
             $tags[] = $this->getTagByIdUseCase->execute($articleTag->getTagId());
         }
+
         return $tags;
     }
 }
