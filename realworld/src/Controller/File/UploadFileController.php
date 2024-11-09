@@ -30,7 +30,7 @@ class UploadFileController extends BaseController
     #[Route(path: '/file-upload', name: 'file_upload', methods: ['POST'])]
     public function __invoke(BaseRequest $request)
     {
-        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         /** @var UploadedFile $file */
         $file = $request->getRequest()->files->get('image');
 

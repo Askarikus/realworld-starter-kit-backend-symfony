@@ -8,16 +8,16 @@ use App\Dto\AbstractResponseDto;
 use App\Entity\AbstractEntity;
 use App\Entity\User;
 use App\Entity\UserEntity;
-use Symfony\Component\Uid\UuidV7;
+use Symfony\Component\Uid\UUidV7;
 
 final class UserResponseDto extends AbstractResponseDto
 {
     private ?string $jwtToken = null;
 
     public function __construct(
-        private readonly UuidV7 $id,
+        private readonly UUidV7 $id,
         private readonly string $email,
-        private readonly string $name,
+        private readonly string $username,
         private readonly ?string $bio = null,
         private readonly ?string $image = null,
     ) {
@@ -31,13 +31,13 @@ final class UserResponseDto extends AbstractResponseDto
         return new static(
             id: $model->getId(),
             email: $model->getEmail(),
-            name: $model->getUsername(),
+            username: $model->getUsername(),
             bio: $model->getBio(),
             image: $model->getImage()
         );
     }
 
-    public function getId(): UuidV7
+    public function getId(): UUidV7
     {
         return $this->id;
     }
@@ -49,7 +49,7 @@ final class UserResponseDto extends AbstractResponseDto
 
     public function getUsername(): ?string
     {
-        return $this->name;
+        return $this->username;
     }
 
     public function getBio(): ?string
@@ -83,7 +83,7 @@ final class UserResponseDto extends AbstractResponseDto
             'username' => $this->getUsername(),
             'bio' => $this->getBio(),
             'image' => $this->getImage(),
-            'token' => $this->jwtToken,
+            'token' => $this->getJwtToken(),
         ];
     }
 }

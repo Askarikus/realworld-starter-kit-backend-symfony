@@ -8,17 +8,16 @@ use App\Dto\AbstractResponseDto;
 use App\Entity\AbstractEntity;
 use App\Entity\User;
 use App\Entity\UserEntity;
-use Symfony\Component\Uid\UuidV7;
+use Symfony\Component\Uid\UUidV7;
 
 final class UserDto extends AbstractResponseDto
 {
     public function __construct(
-        private readonly UuidV7 $id,
+        private readonly UUidV7 $id,
         private readonly string $email,
-        private readonly string $name,
+        private readonly string $username,
         private readonly ?string $bio = null,
         private readonly ?string $image = null,
-
         private readonly ?\DateTimeImmutable $created_at,
         private readonly ?\DateTimeImmutable $updated_at,
     ) {
@@ -32,7 +31,7 @@ final class UserDto extends AbstractResponseDto
         return new static(
             id: $model->getId(),
             email: $model->getEmail(),
-            name: $model->getName(),
+            username: $model->getUsername(),
             bio: $model->getBio(),
             image: $model->getImage(),
             created_at: $model->getCreatedAt(),
@@ -40,7 +39,7 @@ final class UserDto extends AbstractResponseDto
         );
     }
 
-    public function getId(): UuidV7
+    public function getId(): UUidV7
     {
         return $this->id;
     }
@@ -50,19 +49,19 @@ final class UserDto extends AbstractResponseDto
         return $this->email;
     }
 
-    public function getName(): ?string
+    public function getUsername(): ?string
     {
-        return $this->name;
+        return $this->username;
     }
 
     public function getBio(): ?string
     {
-        return $this->name;
+        return $this->bio;
     }
 
     public function getImage(): ?string
     {
-        return $this->name;
+        return $this->image;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
@@ -83,7 +82,7 @@ final class UserDto extends AbstractResponseDto
         return [
             'id' => (string) $this->getId(),
             'email' => $this->getEmail(),
-            'name' => $this->getName(),
+            'username' => $this->getUsername(),
             'bio' => $this->getBio(),
             'image' => $this->getImage(),
             'created_at' => $this->getCreatedAt()?->getTimestamp(),
