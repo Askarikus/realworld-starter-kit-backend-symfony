@@ -16,6 +16,6 @@ class GetUserByNameUseCase
 
     public function execute(string $username): ?User
     {
-        return $this->userRepository->findOneBy(['name' => $username]);
+        return $this->userRepository->findOneBy(['username' => $username]);
     }
 }

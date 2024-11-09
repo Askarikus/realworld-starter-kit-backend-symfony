@@ -26,13 +26,13 @@ final class UserProfileResponseDto extends AbstractResponseDto
     public static function fromModel(AbstractEntity|User $model): static
     {
         return new static(
-            name: $model->getName(),
+            name: $model->getUsername(),
             bio: $model->getBio(),
             image: $model->getImage()
         );
     }
 
-    public function getName(): ?string
+    public function getUsername(): ?string
     {
         return $this->name;
     }
@@ -63,7 +63,7 @@ final class UserProfileResponseDto extends AbstractResponseDto
     public function jsonSerialize(): array
     {
         return [
-            'username' => $this->getName(),
+            'username' => $this->getUsername(),
             'bio' => $this->getBio(),
             'image' => $this->getImage(),
             'follow' => $this->getIsFollowedByCeleb(),

@@ -41,12 +41,12 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
-    public function getName(): ?string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    public function setName(?string $username): void
+    public function setUsername(?string $username): void
     {
         $this->username = $username;
     }

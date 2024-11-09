@@ -31,7 +31,7 @@ final class UserResponseDto extends AbstractResponseDto
         return new static(
             id: $model->getId(),
             email: $model->getEmail(),
-            name: $model->getName(),
+            name: $model->getUsername(),
             bio: $model->getBio(),
             image: $model->getImage()
         );
@@ -47,7 +47,7 @@ final class UserResponseDto extends AbstractResponseDto
         return $this->email;
     }
 
-    public function getName(): ?string
+    public function getUsername(): ?string
     {
         return $this->name;
     }
@@ -80,7 +80,7 @@ final class UserResponseDto extends AbstractResponseDto
         return [
             // 'id' => (string) $this->getId(),
             'email' => $this->getEmail(),
-            'username' => $this->getName(),
+            'username' => $this->getUsername(),
             'bio' => $this->getBio(),
             'image' => $this->getImage(),
             'token' => $this->jwtToken,
