@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Fixtures;
 
 use App\Entity\User;
-use App\Helpers\Password\PasswordHasherHelper;
+use Symfony\Component\Uid\UUidV7;
 use Doctrine\Persistence\ObjectManager;
+use App\Helpers\Password\PasswordHasherHelper;
 
 class UserFixtures extends BaseFixtures
 {
@@ -22,7 +23,8 @@ class UserFixtures extends BaseFixtures
             1,
             [],
             function (User $user, $arr) {
-                $user->setName('user');
+                // $user->setId(UUidV7::v4());
+                $user->setUsername('user');
                 $user->setEmail('user@user.com');
                 $user->setPassword(
                     password: '1234567',

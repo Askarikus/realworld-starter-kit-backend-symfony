@@ -25,6 +25,7 @@ class CreateArticleController extends BaseController
     #[Route(path: 'articles', name: 'article_create', methods: ['POST'])]
     public function __invoke(BaseRequest $request): Response
     {
+        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         $requestData = $request->getJsonData()['article'] ?? null;
 
         $validator = new CreateArticleValidator();

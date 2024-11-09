@@ -20,7 +20,7 @@ final class EditUserRequestDto extends AbstractRequestDto
         private readonly ?string $password,
 
         #[Assert\Type('string')]
-        private readonly ?string $name,
+        private readonly ?string $username,
 
         #[Assert\Type('string')]
         private readonly ?string $bio,
@@ -35,7 +35,7 @@ final class EditUserRequestDto extends AbstractRequestDto
         return new static(
             email: self::parseNullableString($data['email']),
             password: self::parseNullableString($data['password']),
-            name: self::parseNullableString($data['username']),
+            username: self::parseNullableString($data['username']),
             bio: self::parseNullableString($data['bio']),
             image: self::parseNullableString($data['image']),
         );
@@ -51,9 +51,9 @@ final class EditUserRequestDto extends AbstractRequestDto
         return $this->password;
     }
 
-    public function getName(): ?string
+    public function getUsername(): ?string
     {
-        return $this->name;
+        return $this->username;
     }
 
     public function getBio(): ?string
@@ -71,7 +71,7 @@ final class EditUserRequestDto extends AbstractRequestDto
         return [
             'email' => $this->getEmail(),
             'password' => $this->getPassword(),
-            'name' => $this->getName(),
+            'username' => $this->getUsername(),
             'bio' => $this->getBio(),
             'image' => $this->getImage(),
         ];

@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-// use App\Entity\Trait\TimestampableTrait;
 use App\Entity\Trait\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
-use Symfony\Component\Uid\UuidV7;
+use Symfony\Component\Uid\UUidV7;
 
 #[ORM\HasLifecycleCallbacks]
 abstract class AbstractEntity
@@ -19,9 +18,9 @@ abstract class AbstractEntity
     #[ORM\Column(type: UuidType::NAME, unique: true, nullable: false)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    protected UuidV7 $id;
+    protected UUidV7 $id;
 
-    public function getId(): UuidV7
+    public function getId(): UUidV7
     {
         return $this->id;
     }
@@ -31,7 +30,7 @@ abstract class AbstractEntity
         return (string) $this->getId();
     }
 
-    public function setId(UuidV7 $id): void
+    public function setId(UUidV7 $id): void
     {
         $this->id = $id;
     }

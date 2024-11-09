@@ -14,7 +14,7 @@ final class UserProfileResponseDto extends AbstractResponseDto
     private bool $isFollowedByCeleb = false;
 
     public function __construct(
-        private readonly string $name,
+        private readonly string $username,
         private readonly ?string $bio = null,
         private readonly ?string $image = null,
     ) {
@@ -26,7 +26,7 @@ final class UserProfileResponseDto extends AbstractResponseDto
     public static function fromModel(AbstractEntity|User $model): static
     {
         return new static(
-            name: $model->getUsername(),
+            username: $model->getUsername(),
             bio: $model->getBio(),
             image: $model->getImage()
         );
@@ -34,7 +34,7 @@ final class UserProfileResponseDto extends AbstractResponseDto
 
     public function getUsername(): ?string
     {
-        return $this->name;
+        return $this->username;
     }
 
     public function getBio(): ?string
