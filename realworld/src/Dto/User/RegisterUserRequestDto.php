@@ -26,7 +26,7 @@ final class RegisterUserRequestDto extends AbstractRequestDto
         #[Assert\Type('string')]
         #[Assert\NotBlank]
         #[Assert\NotNull]
-        private readonly string $name,
+        private readonly string $username,
     ) {
     }
 
@@ -35,7 +35,7 @@ final class RegisterUserRequestDto extends AbstractRequestDto
         return new static(
             email: self::parseString($data['email']),
             password: self::parseString($data['password']),
-            name: self::parseString($data['username']),
+            username: self::parseString($data['username']),
         );
     }
 
@@ -49,9 +49,9 @@ final class RegisterUserRequestDto extends AbstractRequestDto
         return $this->password;
     }
 
-    public function getName(): string
+    public function getUsername(): string
     {
-        return $this->name;
+        return $this->username;
     }
 
     public function jsonSerialize(): array
@@ -59,7 +59,7 @@ final class RegisterUserRequestDto extends AbstractRequestDto
         return [
             'email' => $this->getEmail(),
             'password' => $this->getPassword(),
-            'name' => $this->getName(),
+            'username' => $this->getUsername(),
         ];
     }
 }

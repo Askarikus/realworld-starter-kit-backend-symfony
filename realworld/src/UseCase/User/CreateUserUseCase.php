@@ -19,7 +19,7 @@ class CreateUserUseCase
     public function execute(
         string $email,
         string $password,
-        ?string $name = null,
+        ?string $username = null,
         ?string $bio = null,
         ?string $image = null,
     ): User {
@@ -29,7 +29,7 @@ class CreateUserUseCase
             password: $password,
             passwordHasher: $this->passwordHasherHelper,
         );
-        $fields = ['bio', 'image', 'name'];
+        $fields = ['bio', 'image', 'username'];
 
         foreach ($fields as $field) {
             $setter = 'set'.ucfirst($field);

@@ -25,7 +25,7 @@ class RegisterUserUseCase
         $user = $this->createUserUseCase->execute(
             $registerUserRequestDto->getEmail(),
             $registerUserRequestDto->getPassword(),
-            $registerUserRequestDto->getName(),
+            $registerUserRequestDto->getUsername(),
         );
 
         return $user;
