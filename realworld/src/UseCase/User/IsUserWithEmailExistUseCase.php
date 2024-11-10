@@ -15,7 +15,7 @@ class IsUserWithEmailExistUseCase
 
     public function execute(string $email): bool
     {
-        $result = $this->userRepository->findOneBy(['email' => $email]);
+        $result = $this->userRepository->findEmailByEmail($email);
 
         return null !== $result;
     }

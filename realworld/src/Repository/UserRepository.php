@@ -26,4 +26,17 @@ class UserRepository extends AbstractRepository
         $this->getEntityManager()->remove($user);
         $this->getEntityManager()->flush();
     }
+
+    public function findEmailByEmail(string $email): ?string
+    {
+        $queryBuilder = $this->createQueryBuilder('u')
+            ->select('u.email')
+            ->where('u.email = :email')
+            ->setParameter('email', $email)
+            ->setMaxResults(1);
+
+        $result = $queryBuilder->getQuery()->getOneOrNullResult();
+
+        return $result['email'] ?? null;
+    }
 }
